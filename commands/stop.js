@@ -1,8 +1,8 @@
 module.exports = {
     data: {
-        name: 'stop',
-        aliases: ['disconnect', 'leave'],
-        inVoiceChannel: true,
+        "name": 'stop',
+        "aliases": ['disconnect', 'leave'],
+        "inVoiceChannel": true,
     },
 
     execute: async (message, args) => {

@@ -1,8 +1,8 @@
 module.exports = {
     data: {
-        name: 'playskip',
-        aliases: ['ps'],
-        inVoiceChannel: true,
+        "name": 'playskip',
+        "aliases": ['ps'],
+        "inVoiceChannel": true,
     },
     
     execute: async (message, args) => {

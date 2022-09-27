@@ -1,8 +1,8 @@
 module.exports = {
     data: {
-        name: 'nowplaying',
-        aliases: ['np'],
-        inVoiceChannel: true,
+        "name": 'nowplaying',
+        "aliases": ['np'],
+        "inVoiceChannel": true,
     },
     
     execute: async (message, args) => {

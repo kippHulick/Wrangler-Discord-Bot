@@ -1,7 +1,7 @@
 module.exports = {
     data: {
-        name: 'previous',
-    inVoiceChannel: true,
+        "name": 'previous',
+        "inVoiceChannel": true,
     },
     
     execute: async (message) => {

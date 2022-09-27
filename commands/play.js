@@ -1,10 +1,10 @@
 module.exports = {
 	data: {
-        name: 'play',
-        aliases: ['p'],
-        inVoiceChannel: true,
+        "name": 'play',
+        "aliases": ['p'],
+        "inVoiceChannel": true,
     },
-    
+
     execute: async (message, args) => {
         console.log('Playing!')
         const string = args.join(' ')

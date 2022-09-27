@@ -1,7 +1,7 @@
 module.exports = {
     data: {
-        name: 'queue',
-        aliases: ['q'],
+        "name": 'queue',
+        "aliases": ['q'],
     },
 
     execute: async (message, args) => {
@@ -16,7 +16,6 @@ module.exports = {
             return `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\``
         })
         .join('\n')
-        console.log(totalDuration)
         console.log(`**Server Queue**\n**${totalSongs} Total Songs**\n**\`${Math.floor(totalDuration / 60)}:${totalDuration % 60}\` Minutes of music**\n${q.slice(0, 1950)}`.length)
       message.channel.send(
         totalDuration > 3600 ?

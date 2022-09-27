@@ -1,8 +1,8 @@
 module.exports = {
     data: {
-        name: 'repeat',
-        aliases: ['loop', 'rp'],
-        inVoiceChannel: true,
+        "name": 'repeat',
+        "aliases": ['loop', 'rp'],
+        "inVoiceChannel": true,
     },
 
     execute: async (message, args) => {

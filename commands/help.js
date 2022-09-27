@@ -1,7 +1,7 @@
 module.exports = {
     data: {
-        name: 'help',
-        aliases: ['h', 'cmd', 'command'],
+        "name": 'help',
+        "aliases": ['h', 'cmd', 'command'],
     },
 
   execute: async (message, args) => {

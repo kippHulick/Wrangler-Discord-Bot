@@ -1,8 +1,8 @@
 module.exports = {
     data: {
-        name: 'volume',
-        aliases: ['v', 'set', 'set-volume'],
-        inVoiceChannel: true,
+        "name": 'volume',
+        "aliases": ['v', 'set', 'set-volume'],
+        "inVoiceChannel": true,
     },
     
     execute: async (message, args) => {

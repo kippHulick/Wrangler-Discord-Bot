@@ -1,7 +1,7 @@
 module.exports = {
     data: {
-        name: 'shuffle',
-        inVoiceChannel: true,
+        "name": 'shuffle',
+        "inVoiceChannel": true,
     },
     
     execute: async (message, args) => {
