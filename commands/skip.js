@@ -6,14 +6,19 @@ module.exports = {
     },
 
     execute: async (message, args) => {
-      const queue = message.client.distube.getQueue(message)
-      if (!message.client.distube.queue.autoplay && queue.songs.length <= 1) return
-      if (!queue) return message.channel.send(`There is nothing in the queue buddy!`)
-      try {
-        const song = await queue.skip()
-        message.channel.send(`Skipped! Now playing:\n${song.name}`)
-      } catch (e) {
-        message.channel.send(`Error: ${e}`)
-      }
+      message.client.distube.skip(message)
+
+      // const queue = message.client.distube.getQueue(message)
+
+      // if (!queue.autoplay && queue.songs.length == 1) return queue.stop()
+
+      // if (!queue) return message.channel.send(`There is nothing in the queue buddy!`)
+
+      // try {
+      //   const song = await queue.skip()
+      //   message.channel.send(`Skipped! Now playing:\n${song.name}`)
+      // } catch (e) {
+      //   message.channel.send(`Error: ${e}`)
+      // }
     }
   }
