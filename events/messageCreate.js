@@ -8,7 +8,7 @@ module.exports = {
 
         if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") return
 
-        if (message.mentions.has(client.user.id)) {
+        if (message.mentions.has(message.client.user.id)) {
             message.channel.send("Calm down big guy! Otherwise you're going to timeout.");
         }
 
