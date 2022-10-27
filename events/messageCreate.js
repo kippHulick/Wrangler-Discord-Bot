@@ -6,6 +6,12 @@ module.exports = {
         const prefix = ';'
 		if (message.author.bot) return
 
+        if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") return
+
+        if (message.mentions.has(client.user.id)) {
+            message.channel.send("Calm down big guy! Otherwise you're going to timeout.");
+        }
+
         if (!message.content.startsWith(prefix)) return
 
         const args = message.content.slice(prefix.length).trim().split(' ')
