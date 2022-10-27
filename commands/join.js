@@ -6,19 +6,19 @@ module.exports = {
         aliases: ['move'],
     },
 
-  execute: async (client, message, args) => {
+  execute: async (message, args) => {
     let voiceChannel = message.member.voice.channel
     if (args[0]) {
-      voiceChannel = await client.channels.fetch(args[0])
+      voiceChannel = await message.client.channels.fetch(args[0])
       if (!Constants.VoiceBasedChannelTypes.includes(voiceChannel?.type)) {
-        return message.channel.send(`${client.emotes.error} | ${args[0]} is not a valid voice channel!`)
+        return message.channel.send(`$${args[0]} is not a valid voice channel!`)
       }
     }
     if (!voiceChannel) {
       return message.channel.send(
-        `${client.emotes.error} | You must be in a voice channel or enter a voice channel id!`
+        `You must be in a voice channel or enter a voice channel id!`
       )
     }
-    client.distube.voices.join(voiceChannel)
+    message.client.distube.voices.join(voiceChannel)
   }
 }
