@@ -16,7 +16,7 @@ module.exports = {
 
         state.toggleTimeOut()
 
-        return message.channel.send(`Uh oh! Someone's been naughty it's timeout time! Hi there big boy!!`)
+        return message.channel.send(`Uh oh! Someone's been naughty it's timeout time!`)
 
     }
 };
