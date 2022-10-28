@@ -1,8 +1,18 @@
 const fs = require('node:fs')
 const path = require('node:path')
-const { Client, Collection, GatewayIntentBits } = require("discord.js")
 const { DisTube } = require('distube')
 require('dotenv').config()
+
+const { 
+	Client,
+	Collection,
+	GatewayIntentBits, 
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle
+} = require("discord.js")
+
 
 const client = new Client({ 
 	intents: [
@@ -71,7 +81,7 @@ for (const file of eventFiles) {
 }
 
 // Queue status template
-const status = queue => {
+const status2 = queue2 => {
 	return `Volume: \`${queue.volume}%\`  | Loop: \`${
 		queue.repeatMode
 			? queue.repeatMode === 2
@@ -81,15 +91,29 @@ const status = queue => {
 	}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
 }
 
+const status = queue => [
+		{ name: 'Volume', value: `${queue.volume}` },
+		{ name: 'Loop', value: queue.repeatMode ? queue.repeatMode === 2 ? 'All Queue' : 'This Song' : 'Off', inline: true },
+		{ name: 'Autoplay', value: queue.autoplay ? 'On' : 'Off', inline: true },
+		// { name: 'Inline field title', value: 'Some value here', inline: true },
+	]
 // DisTube event listeners
 client.distube
-	.on('playSong', (queue, song) =>
-		queue.textChannel?.send(
-			`Playing \`${song.name}\` - \`${
-				song.formattedDuration
-			}\`\nRequested by: ${song.user.username}\n${status(queue)}`,
-		),
-	)
+	.on('playSong', (queue, song) => {
+		const playSongEmbed = new EmbedBuilder()
+			.setColor(0x3498db)
+			.setTitle(`${song.name}`)
+			// .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
+			.addFields(status(queue))
+			.setFooter({ text: `Added by ${song.user.username}` })
+
+			// queue.textChannel?.send(
+			// 	`Playing \`${song.name}\` - \`${
+			// 		song.formattedDuration
+			// 	}\`\nRequested by: ${song.user.username}\n${status(queue)}`,
+
+		queue.textChannel.send({ embeds: [playSongEmbed] })
+	})
 	.on('addSong', (queue, song) =>
 		queue.textChannel?.send(
 			`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user.username}`,
@@ -121,20 +145,53 @@ client.distube
 		),
 	)
 	// DisTubeOptions.searchSongs > 1
-	.on('searchResult', (message, result) => {
-		let i = 0;
-		message.channel.send(
-			`**Choose an option from below**\n${result
-				.map(
-					song =>
-						`**${++i}**. ${song.name} - \`${
-							song.formattedDuration
-						}\``,
+	.on('searchResult', async (message, result) => {
+
+		const fields = result.map((song, i) => {
+			return { name: `${i + 1}`, value: `${song}` }
+		})
+
+		console.log(fields);
+
+		const buttons = () => {
+			const buttons = []
+			for( let i = 1; i <=5; i++){
+				buttons.push( new ButtonBuilder()
+					.setCustomId('primary')
+					.setLabel(`${i}`)
+					.setStyle(ButtonStyle.Primary)
 				)
-				.join(
-					'\n',
-				)}\n*Enter anything else or wait 30 seconds to cancel*`,
-		);
+			}
+			return buttons
+		}
+
+		const buttonsRow = new ActionRowBuilder()
+			.addComponents(new ButtonBuilder()
+			.setCustomId('primary')
+			.setLabel(`1`)
+			.setStyle(ButtonStyle.Primary))
+
+		const searchResult = new EmbedBuilder()
+			.setColor(0x3498db)
+			.setTitle('Choose an option below!')
+			.addFields(result.map((song, i) => {
+				return { name: `${i + 1}`, value: `${song}` }
+			}))
+
+			await message.channel.send({ embeds: [searchResult], components: [buttonsRow] })
+		// let i = 0;
+		// message.channel.send(
+		// 	`**Choose an option from below**\n${result
+		// 		.map(
+		// 			song =>
+		// 				`**${++i}**. ${song.name} - \`${
+		// 					song.formattedDuration
+		// 				}\``,
+		// 		)
+		// 		.join(
+		// 			'\n',
+		// 		)}\n*Enter anything else or wait 30 seconds to cancel*`,
+		// );
 	})
 	.on('searchCancel', message =>
 		message.channel.send('Searching canceled'),
@@ -143,8 +200,11 @@ client.distube
 		message.channel.send('Invalid number of result.'),
 	)
 	.on('searchNoResult', message =>
-		message.channel.send('No result found!'),
+		message.channel.send(`Sorry ${message.member} there was no result for your search`),
 	)
+	// .on('searchNoResult', message =>
+	// 	message.channel.send('No result found!'),
+	// )
 	.on('searchDone', () => {});
 
 client.login(process.env.TOKEN);
