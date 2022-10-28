@@ -1,9 +1,17 @@
 const { MembershipScreeningFieldType } = require("discord.js");
+const state =  require('../services/state')
 
 module.exports = {
 	name: 'messageCreate',
 	execute(message) {
         const prefix = ';'
+
+        if(state.timeOut){
+            if(message.author.id === `137219201852112897`){
+                message.delete()
+            }
+        }
+
 		if (message.author.bot) return
 
         if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") return
