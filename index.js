@@ -52,7 +52,7 @@ client.distube = new DisTube(client, {
 client.commands = new Collection();
 client.aliases = new Collection();
 
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(__dirname, 'src/commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -66,7 +66,7 @@ for (const file of commandFiles) {
 
 //* Event Handling *\\
 
-const eventsPath = path.join(__dirname, 'events');
+const eventsPath = path.join(__dirname, 'src/events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -151,7 +151,7 @@ client.distube
 			return { name: `${i + 1}`, value: `${song}` }
 		})
 
-		console.log(fields);
+		// console.log(fields);
 
 		const buttons = () => {
 			const buttons = []
