@@ -154,7 +154,7 @@ client.distube
 <<<<<<< HEAD
 		// console.log(fields);
 =======
-		console.log(fields);
+		// console.log(fields);
 >>>>>>> 90b8478 (embed messages for play command)
 
 		const buttons = () => {
