@@ -151,11 +151,7 @@ client.distube
 			return { name: `${i + 1}`, value: `${song}` }
 		})
 
-<<<<<<< HEAD
-		// console.log(fields);
-=======
-		// console.log(fields);
->>>>>>> 90b8478 (embed messages for play command)
+		console.log(fields);
 
 		const buttons = () => {
 			const buttons = []
@@ -206,9 +202,6 @@ client.distube
 	.on('searchNoResult', message =>
 		message.channel.send(`Sorry ${message.member} there was no result for your search`),
 	)
-	// .on('searchNoResult', message =>
-	// 	message.channel.send('No result found!'),
-	// )
 	.on('searchDone', () => {});
 
 client.login(process.env.TOKEN);
