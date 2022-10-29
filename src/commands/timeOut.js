@@ -1,6 +1,5 @@
 const state = require('./tools/state');
 
-
 module.exports = {
 	data: {
         "name": 'timeout',
@@ -16,7 +15,9 @@ module.exports = {
 
         state.toggleTimeOut()
 
-        return message.channel.send(`Uh oh! Someone's been naughty it's timeout time!`)
+        return state.timeOut ? 
+        message.channel.send(`Uh oh! Someone's been naughty it's timeout time!`) :
+        message.channel.send(`Alright buddy, you behave yourself now ok.`)
 
     }
 };
