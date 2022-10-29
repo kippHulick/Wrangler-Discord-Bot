@@ -151,7 +151,6 @@ client.distube
 			return { name: `${i + 1}`, value: `${song}` }
 		})
 
-		// console.log(fields);
 
 		const buttons = () => {
 			const buttons = []
