@@ -1,10 +1,12 @@
-const state = require('../../services/state')
+const state = require('./tools/state')
 
 const { 
 	EmbedBuilder,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
+    SelectMenuBuilder,
+    SelectMenuOptionBuilder,
 } = require("discord.js")
 
 module.exports = {
@@ -41,8 +43,8 @@ module.exports = {
             const fields = []
             for(i = 1; i <= 5; i ++){
                 fields.push({
-                    name: `${songs[i - 1].name}`,
-                    value: `${i}`
+                    name: `${i}`,
+                    value: `${songs[i - 1].name}`,
                 })
             }
             return fields
@@ -63,7 +65,26 @@ module.exports = {
             return buttons
         }
 
-        const buttons = new ActionRowBuilder().addComponents(button(1))
+        const options = () => {
+            const options = []
+            for(let i = 0; i < 5; i++){
+                const menuOption = new SelectMenuOptionBuilder({
+                    label: `${songs[i].name}`,
+                    value: `${i + 1}`
+                })
+                options.push(menuOption)
+            }
+            return options
+        }
+
+        const menu = new ActionRowBuilder()
+            .addComponents(new SelectMenuBuilder()
+                .setCustomId('searchmenu')
+                .setMinValues(1)
+                .setMaxValues(5)
+                .setOptions(options()))
+
+        const buttons = new ActionRowBuilder().addComponents(button())
 
 
         const embed = new EmbedBuilder()
