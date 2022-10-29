@@ -7,14 +7,16 @@ const {
 
 module.exports = {
 	name: 'playSong',
-	execute(queue, song) {
+	async execute(queue, song) {
+        const status = queue.distube.client.embeds.get('status').execute
+        console.log(status(queue));
 		const playSongEmbed = new EmbedBuilder()
 			.setColor(0x3498db)
 			.setTitle(`${song.name}`)
 			// .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
-			.addFields(status(queue))
+			.addFields(await status(queue))
 			.setFooter({ text: `Added by ${song.user.username}` })
-            //! Status
+
 
 			// queue.textChannel?.send(
 			// 	`Playing \`${song.name}\` - \`${

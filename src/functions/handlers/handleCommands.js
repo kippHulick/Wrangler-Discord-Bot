@@ -4,7 +4,6 @@ const path = require('node:path')
 module.exports = (client) => {
     client.handleCommands = async() => {
         const commandsPath = path.join(__dirname, '..', '..', 'commands');
-        console.log(commandsPath);
         const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
         for (const file of commandFiles) {
