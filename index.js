@@ -14,6 +14,17 @@ const {
 } = require("discord.js")
 
 
+const { 
+	Client,
+	Collection,
+	GatewayIntentBits, 
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ButtonStyle
+} = require("discord.js")
+
+
 const client = new Client({ 
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -201,6 +212,9 @@ client.distube
 	.on('searchNoResult', message =>
 		message.channel.send(`Sorry ${message.member} there was no result for your search`),
 	)
+	// .on('searchNoResult', message =>
+	// 	message.channel.send('No result found!'),
+	// )
 	.on('searchDone', () => {});
 
 client.login(process.env.TOKEN);
