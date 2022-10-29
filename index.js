@@ -13,18 +13,6 @@ const {
 	ButtonStyle
 } = require("discord.js")
 
-
-const { 
-	Client,
-	Collection,
-	GatewayIntentBits, 
-	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle
-} = require("discord.js")
-
-
 const client = new Client({ 
 	intents: [
 		GatewayIntentBits.Guilds,
