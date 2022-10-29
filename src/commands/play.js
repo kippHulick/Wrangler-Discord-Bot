@@ -1,10 +1,11 @@
+const state = require('../services/state')
+
 const { 
 	EmbedBuilder,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
 } = require("discord.js")
-
 
 module.exports = {
 	data: {
@@ -19,6 +20,8 @@ module.exports = {
         if(!string) return message.channel.send('You need a song to play dum dum!')
 
         const songs = await message.client.distube.search(string)
+        state.songs = songs
+        console.log(state.songs);
         // console.log(songs)
 
         const fields = () => {
