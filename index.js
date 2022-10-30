@@ -1,6 +1,7 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { DisTube } = require('distube')
+const { DiscordTogether } = require('discord-together')
 require('dotenv').config()
 
 const { 
@@ -24,7 +25,7 @@ const client = new Client({
 	]
 })
 
-//* DisTube Settings *\\
+//* DisTube and Discord Settings *\\
 
 const { SpotifyPlugin } = require('@distube/spotify')
 const { YtDlpPlugin } = require('@distube/yt-dlp')
@@ -47,6 +48,8 @@ client.distube = new DisTube(client, {
 		new YtDlpPlugin()
 	]
 })
+
+client.discordTogether = new DiscordTogether(client);
 
 //* Function Handling *\\
 
