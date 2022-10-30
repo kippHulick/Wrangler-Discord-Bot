@@ -9,9 +9,9 @@ module.exports = {
 
       const queue = message.client.distube.getQueue(message)
 
-      if (queue.songs.length == 1) return queue.stop()
+      if (!(queue || queue.songs)) return message.channel.send(`There is nothing in the queue buddy!`)
 
-      if (!queue) return message.channel.send(`There is nothing in the queue buddy!`)
+      if (queue.songs.length == 1) return queue.stop()
 
       try {
         const song = await queue.skip()

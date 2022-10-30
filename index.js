@@ -13,12 +13,14 @@ const {
 	ButtonStyle
 } = require("discord.js")
 
-const client = new Client({ 
+const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildVoiceStates
+		GatewayIntentBits.GuildVoiceStates,
+		GatewayIntentBits.GuildMessageReactions,
+		GatewayIntentBits.GuildEmojisAndStickers,
 	]
 })
 
@@ -69,16 +71,5 @@ for (const folder of functionFolders) {
 client.handleEvents()
 client.handleCommands()
 client.handleComponents()
-
-// Queue status template
-const status2 = queue2 => {
-	return `Volume: \`${queue.volume}%\`  | Loop: \`${
-		queue.repeatMode
-			? queue.repeatMode === 2
-				? 'All Queue'
-				: 'This Song'
-			: 'Off'
-	}\` | Autoplay: \`${queue.autoplay ? 'On' : 'Off'}\``;
-}
 
 client.login(process.env.TOKEN);

@@ -7,6 +7,7 @@ const {
 	ButtonStyle,
     SelectMenuBuilder,
     SelectMenuOptionBuilder,
+    ComponentType
 } = require("discord.js")
 
 module.exports = {
@@ -84,7 +85,14 @@ module.exports = {
                 .setMaxValues(5)
                 .setOptions(options()))
 
-        const buttons = new ActionRowBuilder().addComponents(button())
+        const buttons1 = new ActionRowBuilder().addComponents(button())
+
+        const buttons2 = new ActionRowBuilder().addComponents([
+            new ButtonBuilder()
+                .setCustomId('all')
+                .setLabel(`Play All`)
+                .setStyle(ButtonStyle.Primary)
+        ])
 
 
         const embed = new EmbedBuilder()
@@ -92,6 +100,23 @@ module.exports = {
             .setTitle('Pick an option below!')
             .addFields(fields())
 
-        const res = await message.reply({embeds: [embed], ephemeral: true, components: [buttons]})
+        const opt = { componentType: ComponentType.Button, time: 15000 }
+
+        // const collector = message.createMessageCollector(opt)
+
+        try {
+            const res = await message.reply({embeds: [embed], components: [buttons1, buttons2]})
+            // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
+        } catch (error) {
+            console.log(error);
+        }
+
+        // collector.on('collect', i => {
+        //     if (i.user.id === interaction.user.id) {
+        //         i.reply(`${i.user.id} clicked on the ${i.customId} button.`);
+        //     } else {
+        //         i.reply({ content: `These buttons aren't for you!`, ephemeral: true });
+        //     }
+        // });
     }
 };
