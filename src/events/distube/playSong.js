@@ -13,29 +13,32 @@ module.exports = {
 
 		const message = await queue.textChannel.send({ embeds: [songEmbed] })
 
-        message.react('🔉')
-        message.react('🔊')
-        // message.react('⏮')
-        message.react('⏹')
-        message.react('⏭')
-        message.react('🔀')
-        // message.react('🔁')
-        message.react('🔄')
-        message.react('⏸')
-
-        const filter = (reaction, user) => {
-            return !(user.id === '1023049554884575262')
+        try {
+            message.react('🇶')
+            message.react('🔉')
+            message.react('🔊')
+            message.react('🔀')
+            message.react('🔁')
+            message.react('🔄')
+            if (queue.previousSongs.length > 0) message.react('⏮')
+            message.react('⏹')
+            message.react('⏭')
+            message.react('⏸')
+        } catch (error) {
+            console.log(error);
         }
+
+        const filter = (reaction, user) => !(user.id === '1023049554884575262')
 
         const collector = message.createReactionCollector({ filter, time: Number(song.duration) * 1000 })
 
         collector.on('collect', async (reaction, user) => {
             const emoji = reaction.emoji.name
             const userReactions = message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id))
-            console.log(`Collected reaction ${reaction.emoji.name}`);
             switch (emoji) {
                 case '⏮':
                     client.commands.get('previous').execute(message)
+                    message.reactions.removeAll()
                     break
 
                 case '⏸':
@@ -52,10 +55,12 @@ module.exports = {
 
                 case '⏹':
                     client.commands.get('stop').execute(message)
+                    message.reactions.removeAll()
                     break
 
                 case '⏭':
                     client.commands.get('skip').execute(message)
+                    message.reactions.removeAll()
                     break
 
                 case '🔉':
@@ -87,20 +92,55 @@ module.exports = {
                     break
 
                 case '🔁':
-                    client.commands.get('repeat').execute(message)
+                    try {
+                        for (const reaction of userReactions.values()) {
+                            await reaction.users.remove(user.id).catch(e => console.log(e))
+                        }
+                        switch(queue.repeatMode){
+                            case 0:
+                                arg = 'song'
+                                break
+                            case 1:
+                                arg = 'queue'
+                                break
+                            case 2:
+                                arg = 'off'
+                                break
+                        }
+                        client.commands.get('repeat').execute(message, [arg])
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
                     break
 
                 case '🔄':
                     try {
                         for (const reaction of userReactions.values()) {
-                            await reaction.users.remove(user.id);
+                            await reaction.users.remove(user.id).catch(e => console.log(e))
                         }
+                        
                         client.commands.get('autoplay').execute(message)
                     } catch (error) {
                         console.log(error);
                     }
                     break
+
+                case '🇶':
+                    try {
+                        message.reactions.cache.get('🇶').remove()
+                        message.member = user
+                        message.user = user
+                        client.commands.get('queue').execute(message)
+                    } catch (error) {
+                        
+                    }
+                    break
             }
+        })
+
+        collector.on('end', (col) => {
+            message.reactions.removeAll()
         })
 	},
 };

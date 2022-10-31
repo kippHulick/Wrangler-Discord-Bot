@@ -1,3 +1,9 @@
+const { 
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder
+  } = require("discord.js")
+
 module.exports = {
     data: {
         "name": 'queue',
@@ -6,22 +12,88 @@ module.exports = {
 
     execute: async (message, args) => {
       const queue = message.client.distube.getQueue(message)
+      const status = await message.client.embeds.get('status').execute(queue)
       if (!queue) return message.channel.send(`There is nothing playing dum dum!`)
-      let totalSongs = 1
-      let totalDuration = 0
-      const q = queue.songs
-        .map((song, i) => {
-            totalDuration += song.duration
-            totalSongs += i
-            return `${i === 0 ? 'Playing:' : `${i}.`} ${song.name} - \`${song.formattedDuration}\``
-        })
-        .join('\n')
-        console.log(`**Server Queue**\n**${totalSongs} Total Songs**\n**\`${Math.floor(totalDuration / 60)}:${totalDuration % 60}\` Minutes of music**\n${q.slice(0, 1950)}`.length)
-      message.channel.send(
-        totalDuration > 3600 ?
-        `**Server Queue**\nTotal Songs \`${totalSongs}\`\n**Hours of music: \`${Math.floor(totalDuration / 60 /60)}:${Math.floor(Math.floor(totalDuration / 60 /60) % 60)}:${totalDuration % 60}\`**\n${q.slice(0, 1920)}`
-        :
-        `**Server Queue**\nTotal Songs: \`${totalSongs}\`\n**Minutes of music: \`${Math.floor(totalDuration / 60)}:${totalDuration % 60}\`**\n${q.slice(0, 1920)}`
-        )
+      const { songs } = queue
+
+      const embedFunc = () => {
+        const pageArr = []
+        let songArr = []
+        let songNum = []
+        let pageNum = 1
+        for(const i of songs.keys()){
+          let song = songs[i]
+          if( (i + 1) % 10 === 0 || i === songs.length ){
+            songArr.push(song)
+            songNum.push(i + 1)
+            pageArr.push(
+              new EmbedBuilder()
+                .setColor(0x3498db)
+                .setTitle('🎶 Server Queue 🎶')
+                .setDescription(`Page: \`${pageNum}\``)
+                .addFields([
+                  ...songArr.map((songObj, j) => ({ name: `${songNum[j]} | ${songObj.formattedDuration}`, value: `${songObj.name}` })),
+                  ...status
+                ])
+            )
+            ++pageNum
+            songArr = []
+            songNum = []
+          } else {
+            songArr.push(song)
+            songNum.push(i + 1)
+          }
+        }
+        return pageArr
+      }
+
+      let { id } = message.member
+      const embeds = embedFunc()
+      const pages = {}
+      pages[id] = pages[id] || 0
+      const embed = embeds[pages[id]]
+      const filter = (i) => {
+        return i.user.id === id || id === '1023049554884575262'
+      }
+      const time = 1000 * 60 * 1
+
+      const getRow = (id) => {
+        return new ActionRowBuilder()
+          .addComponents(
+            new ButtonBuilder()
+              .setCustomId('prevEmbed')
+              .setStyle('Primary')
+              .setEmoji('⏮')
+              .setDisabled(pages[id] === 0)
+          )
+          .addComponents(
+            new ButtonBuilder()
+              .setCustomId('nextEmbed')
+              .setStyle('Primary')
+              .setEmoji('⏭')
+              .setDisabled(pages[id] === embeds.length - 1)
+          )
+      }
+
+      reply = await message.reply({ embeds: [embed], components: [getRow(id)] })
+      collector = message.channel.createMessageComponentCollector({ filter, time })
+
+      collector.on('collect', btnInt => {
+        if(!btnInt) return
+
+        btnInt.deferUpdate()
+
+        if(btnInt.customId !== 'prevEmbed' && btnInt.customId !== 'nextEmbed') return
+
+        if(btnInt.customId === 'prevEmbed' && pages[id] > 0) --pages[id]
+
+        if(btnInt.customId === 'nextEmbed' && pages[id] < embeds.length - 1) ++pages[id]
+
+        reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] })
+      })
+
+      collector.on('end', col => {
+        reply.delete()
+      })
     }
 }

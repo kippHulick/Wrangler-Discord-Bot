@@ -28,7 +28,6 @@ module.exports = {
                     message,
                 }
             )
-            message.delete()
             return
         }
 
@@ -65,70 +64,62 @@ module.exports = {
                 return user.id === message.member.id
             }
 
+            const added = []
+
+            const helper = (idx) => {
+                client.distube.play(
+                    message.member.voice.channel, songs[idx], {
+                        textChannel: message.channel,
+                        member: message.member,
+                        message
+                        }
+                )
+                added.push(songs[idx])
+            }
+
             const collector = res.createReactionCollector({ filter, time: 10000 })
             collector.on('collect', (reaction, user) => {
                 const emoji = reaction.emoji.name
 
                 switch (emoji) {
                     case '1️⃣':
-                        client.distube.play(
-                            message.member.voice.channel, songs[0], {
-                                textChannel: message.channel,
-                                member: message.member,
-                                message
-                                }
-                        )
+                        helper(0)
                         break
 
                     case '2️⃣':
-                        client.distube.play(
-                            message.member.voice.channel, songs[1], {
-                                textChannel: message.channel,
-                                member: message.member,
-                                message
-                                }
-                        )
+                        helper(1)
                         break
 
                     case '3️⃣':
-                        client.distube.play(
-                            message.member.voice.channel, songs[2], {
-                                textChannel: message.channel,
-                                member: message.member,
-                                message
-                                }
-                        )
+                        helper(2)
                         break
 
                     case '4️⃣':
-                        client.distube.play(
-                            message.member.voice.channel, songs[3], {
-                                textChannel: message.channel,
-                                member: message.member,
-                                message
-                                }
-                        )
+                        helper(3)
                         break
 
                     case '5️⃣':
-                        client.distube.play(
-                            message.member.voice.channel, songs[4], {
-                                textChannel: message.channel,
-                                member: message.member,
-                                message
-                                }
-                        )
+                        helper(4)
                         break
                 }
             })
 
-            collector.on('end', (p) => {
-                res.delete()
+            collector.on('end', async (collected) => {
+                if (added.length === 0) return res.delete()
+                const totalDuration = added.reduce((acc, obj) => (acc + Number(obj.duration)), 0)
+                const total = new Date(totalDuration * 1000).toISOString().substr(11, 8);
+                editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: song.name }))
+                await res.edit({ embeds: [ 
+                    new EmbedBuilder()
+                        .setColor(0x3498db)
+                        .setTitle(`You have added ${added.length} songs | ${total}`)
+                        .addFields(editFields())
+                ]})
+                res.reactions.removeAll()
             })
 
         } catch (error) {
             console.log(error);
         }
-
     }
 };
