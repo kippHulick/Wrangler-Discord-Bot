@@ -3,14 +3,10 @@ const state =  require('../../commands/tools/state')
 
 module.exports = {
 	name: 'messageCreate',
-	execute(message) {
+	async execute(message) {
         const prefix = ';'
 
-        if(state.timeOut){
-            if(message.author.id === `137219201852112897`){
-                message.delete()
-            }
-        }
+        if(state.timeOut && message.author.id === `137219201852112897`) await message.delete()
 
 		if (message.author.bot) return
 

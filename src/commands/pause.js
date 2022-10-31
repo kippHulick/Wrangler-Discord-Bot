@@ -1,7 +1,7 @@
 module.exports = {
     data: {
         "name": 'pause',
-        "aliases": ['hold'],
+        "aliases": ['hold', 'resume'],
         "inVoiceChannel": true,
     },
 
