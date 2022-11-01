@@ -6,6 +6,6 @@ module.exports = {
         console.log('button');
         await interaction.reply({
             content: 'hi'
-        })
+        }).catch(e => console.log(e))
     }
 }

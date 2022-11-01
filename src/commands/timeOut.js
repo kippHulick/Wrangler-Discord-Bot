@@ -9,8 +9,9 @@ module.exports = {
     execute: async (message, args) => {
 
         if(message.author.id === '137219201852112897'){
-            message.delete()
-            message.channel.send(`Sorry buddy, you can't do that!`)
+            await message.delete().catch(e => console.log(e))
+            await message.channel.send(`Sorry buddy, you can't do that!`)
+            return
         }
 
         state.toggleTimeOut()

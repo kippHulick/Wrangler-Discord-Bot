@@ -6,7 +6,7 @@ module.exports = {
 	async execute(message) {
         const prefix = ';'
 
-        if(state.timeOut && message.author.id === `137219201852112897`) await message.delete()
+        if(state.timeOut && message.author.id === `137219201852112897`) return await message.delete().catch(e => console.log(e))
 
 		if (message.author.bot) return
 
