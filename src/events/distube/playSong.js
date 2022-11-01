@@ -38,35 +38,35 @@ module.exports = {
             switch (emoji) {
                 case '⏮':
                     client.commands.get('previous').execute(message)
-                    message.reactions.removeAll()
+                    message.reactions.removeAll().catch(e => console.log(e))
                     break
 
                 case '⏸':
-                    message.reactions.cache.get('⏸').remove()
+                    message.reactions.cache.get('⏸').remove().catch(e => console.log(e))
                     message.react('▶️')
                     client.commands.get('pause').execute(message)
                     break
 
                 case '▶️':
-                    message.reactions.cache.get('▶️').remove()
+                    message.reactions.cache.get('▶️').remove().catch(e => console.log(e))
                     message.react('⏸')
                     client.commands.get('pause').execute(message)
                     break
 
                 case '⏹':
                     client.commands.get('stop').execute(message)
-                    message.reactions.removeAll()
+                    message.reactions.removeAll().catch(e => console.log(e))
                     break
 
                 case '⏭':
                     client.commands.get('skip').execute(message)
-                    message.reactions.removeAll()
+                    message.reactions.removeAll().catch(e => console.log(e))
                     break
 
                 case '🔉':
                     try {
                         for (const reaction of userReactions.values()) {
-                            await reaction.users.remove(user.id);
+                            await reaction.users.remove(user.id).catch(e => console.log(e))
                         }
                         volDown = queue.volume >= 10 ? queue.volume - 10 : 0
                         client.commands.get('volume').execute(message, [String(volDown)])
@@ -78,7 +78,7 @@ module.exports = {
                 case '🔊':
                     try {
                         for (const reaction of userReactions.values()) {
-                            await reaction.users.remove(user.id);
+                            await reaction.users.remove(user.id).catch(e => console.log(e))
                         }
                         volUp = queue.volume <= 90 ? queue.volume + 10 : 100
                         client.commands.get('volume').execute(message, [String(volUp)])
@@ -128,7 +128,7 @@ module.exports = {
 
                 case '🇶':
                     try {
-                        message.reactions.cache.get('🇶').remove()
+                        message.reactions.cache.get('🇶').remove().catch(e => console.log(e))
                         message.member = user
                         message.user = user
                         client.commands.get('queue').execute(message)
@@ -140,7 +140,7 @@ module.exports = {
         })
 
         collector.on('end', (col) => {
-            message.reactions.removeAll()
+            message.reactions.removeAll().catch(e => console.log(e))
         })
 	},
 };

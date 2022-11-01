@@ -52,7 +52,7 @@ module.exports = {
             .addFields(fields())
 
         try {
-            const res = await message.reply({ embeds: [embed], ephemeral: true })//, components: [buttons1, buttons2]
+            const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))//, components: [buttons1, buttons2]
             // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
             res.react(`1️⃣`)
             res.react(`2️⃣`)
@@ -105,7 +105,7 @@ module.exports = {
             })
 
             collector.on('end', async (collected) => {
-                if (added.length === 0) return res.delete()
+                if (added.length === 0) return res.delete().catch(e => console.log(e))
                 const totalDuration = added.reduce((acc, obj) => (acc + Number(obj.duration)), 0)
                 const total = new Date(totalDuration * 1000).toISOString().substr(11, 8);
                 editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: song.name }))
@@ -115,7 +115,7 @@ module.exports = {
                         .setTitle(`You have added ${added.length} songs | ${total}`)
                         .addFields(editFields())
                 ]})
-                res.reactions.removeAll()
+                res.reactions.removeAll().catch(e => console.log(e))
             })
 
         } catch (error) {

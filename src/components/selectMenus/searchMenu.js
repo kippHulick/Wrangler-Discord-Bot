@@ -7,6 +7,6 @@ module.exports = {
         console.log({interaction});
         await interaction.reply({
             content: `You selected: ${interaction.values}`
-        })
+        }).catch(e => console.log(e))
     }
 }

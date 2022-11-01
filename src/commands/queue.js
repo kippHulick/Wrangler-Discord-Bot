@@ -12,8 +12,8 @@ module.exports = {
 
     execute: async (message, args) => {
       const queue = message.client.distube.getQueue(message)
+      if (!(queue || queue?.songs)) return message.channel.send(`There is nothing playing dum dum!`)
       const status = await message.client.embeds.get('status').execute(queue)
-      if (!queue) return message.channel.send(`There is nothing playing dum dum!`)
       const { songs } = queue
 
       const embedFunc = () => {
@@ -75,7 +75,7 @@ module.exports = {
           )
       }
 
-      reply = await message.reply({ embeds: [embed], components: [getRow(id)] })
+      reply = await message.reply({ embeds: [embed], components: [getRow(id)] }).catch(e => console.log(e))
       collector = message.channel.createMessageComponentCollector({ filter, time })
 
       collector.on('collect', btnInt => {
@@ -89,11 +89,11 @@ module.exports = {
 
         if(btnInt.customId === 'nextEmbed' && pages[id] < embeds.length - 1) ++pages[id]
 
-        reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] })
+        reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] }).catch(e => console.log(e))
       })
 
       collector.on('end', col => {
-        reply.delete()
+        reply.delete().catch(e => console.log(e))
       })
     }
 }

@@ -12,6 +12,6 @@ module.exports = {
       const song = queue.songs[0]
       const songEmbed = await client.embeds.get('song').execute(queue, song)
       
-      message.reply({ embeds: [songEmbed] })
+      message.reply({ embeds: [songEmbed] }).catch(e => console.log(e))
     }
 }
