@@ -12,7 +12,7 @@ module.exports = {
             await command.execute(interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true }).catch(e => console.log(e))
+            await interaction.reply({ content: 'There was an error while executing this command!' }).catch(e => console.log(e))
         }
 
         } else if (interaction.isButton()){

@@ -11,9 +11,9 @@ module.exports = {
     },
 
     execute: async (message, args) => {
+      const pageLength = 10
       const queue = message.client.distube.getQueue(message)
       if (!(queue || queue?.songs)) return message.channel.send(`There is nothing playing dum dum!`)
-      const status = await message.client.embeds.get('status').execute(queue)
       const { songs } = queue
 
       const embedFunc = () => {
@@ -23,18 +23,24 @@ module.exports = {
         let pageNum = 1
         for(const i of songs.keys()){
           let song = songs[i]
-          if( (i + 1) % 10 === 0 || i === songs.length ){
+          if( (i + 1) % pageLength === 0 || i === songs.length ){
+            const songField = () => {
+              songString = ``
+              songArr.forEach((songObj, j) => songString = `${songString}**${songNum[j]}.** [${songObj.name.slice(0, 40)}](${songObj.url}) - \`${songObj.formattedDuration}\`\n`)
+              return songString
+            }
             songArr.push(song)
             songNum.push(i + 1)
             pageArr.push(
               new EmbedBuilder()
                 .setColor(0x3498db)
                 .setTitle('🎶 Server Queue 🎶')
-                .setDescription(`Page: \`${pageNum}\``)
                 .addFields([
-                  ...songArr.map((songObj, j) => ({ name: `${songNum[j]} | ${songObj.formattedDuration}`, value: `${songObj.name}` })),
-                  ...status
+                  { name: '\u200b', value: `**Playing:** [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>` },
+                  { name: '\u200b', value: '**Next Songs:**' },
+                  { name: '\u200b', value: `${songField()}` },
                 ])
+                .setFooter({ text: `Page ${pageNum}/${Math.floor(songs.length / pageLength)} • ${songs.length} Songs • Duration: ${queue.formattedDuration}` })
             )
             ++pageNum
             songArr = []
@@ -52,9 +58,7 @@ module.exports = {
       const pages = {}
       pages[id] = pages[id] || 0
       const embed = embeds[pages[id]]
-      const filter = (i) => {
-        return i.user.id === id || id === '1023049554884575262'
-      }
+      const filter = (i) => i.user.id === id || id === '1023049554884575262'
       const time = 1000 * 60 * 1
 
       const getRow = (id) => {
@@ -65,6 +69,12 @@ module.exports = {
               .setStyle('Primary')
               .setEmoji('⏮')
               .setDisabled(pages[id] === 0)
+          )
+          .addComponents(
+            new ButtonBuilder()
+              .setCustomId('trash')
+              .setStyle('Danger')
+              .setEmoji('🗑')
           )
           .addComponents(
             new ButtonBuilder()
@@ -83,9 +93,11 @@ module.exports = {
 
         btnInt.deferUpdate()
 
-        if(btnInt.customId !== 'prevEmbed' && btnInt.customId !== 'nextEmbed') return
+        if(btnInt.customId !== 'prevEmbed' && btnInt.customId !== 'nextEmbed' && btnInt.customId !== 'trash') return
 
         if(btnInt.customId === 'prevEmbed' && pages[id] > 0) --pages[id]
+
+        if(btnInt.customId === 'trash' && pages[id]) reply.delete().catch(e => console.log(e))
 
         if(btnInt.customId === 'nextEmbed' && pages[id] < embeds.length - 1) ++pages[id]
 

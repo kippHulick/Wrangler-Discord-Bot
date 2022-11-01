@@ -15,7 +15,7 @@ module.exports = {
         return new EmbedBuilder()
         .setColor(0x3498db)
         .setTitle(`🎶 Playing 🎶`)
-        .setDescription(`${song.name}`)
+        .setDescription(`[${song.name}](${song.url})`)
         .setThumbnail(`${song.thumbnail}`)
         // .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
         .addFields([
