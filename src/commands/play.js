@@ -52,7 +52,7 @@ module.exports = {
             .addFields(fields())
 
         try {
-            const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))//, components: [buttons1, buttons2]
+            const res = await message.reply({ embeds: [embed] }).catch(e => console.log(e))//, components: [buttons1, buttons2]
             // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
             res.react(`1️⃣`)
             res.react(`2️⃣`)
