@@ -25,10 +25,10 @@ module.exports = async (client) => {
             client.channels.cache.get(errorChannel).send(errorEmbed)
         })
 
-        process.on('multipleResolves', async (type, promise, reason) => {
-            console.log(` [Anti-Crash] :: Multiple resolves!`);
-            // console.log({type, reason});
-            // console.log(await promise);
-        })
+        // process.on('multipleResolves', async (type, promise, reason) => {
+        //     console.log(` [Anti-Crash] :: Multiple resolves!`);
+        //     // console.log({type, reason});
+        //     // console.log(await promise);
+        // })
     }
 }
