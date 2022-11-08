@@ -2,7 +2,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder
-  } = require("discord.js")
+} = require("discord.js")
 
 module.exports = {
     data: {
@@ -25,21 +25,18 @@ module.exports = {
           let song = songs[i]
           if( (i + 1) % pageLength === 0 || i === songs.length ){
             const songField = () => {
-              songString = ``
-              songArr.forEach((songObj, j) => songString = `${songString}**${songNum[j]}.** [${songObj.name.slice(0, 40)}](${songObj.url}) - \`${songObj.formattedDuration}\`\n`)
+              songString = `**Playing:** [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>\n**Next Songs:**\n`
+              songArr.forEach((songObj, j) => songString = `${songString}**${songNum[j]}.** [${songObj.name}](${songObj.url}) - \`${songObj.formattedDuration}\`\n`)
               return songString
             }
+
             songArr.push(song)
             songNum.push(i + 1)
             pageArr.push(
               new EmbedBuilder()
                 .setColor(0x3498db)
                 .setTitle('🎶 Server Queue 🎶')
-                .addFields([
-                  { name: '\u200b', value: `**Playing:** [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>` },
-                  { name: '\u200b', value: '**Next Songs:**' },
-                  { name: '\u200b', value: `${songField()}` },
-                ])
+                .setDescription(songField())
                 .setFooter({ text: `Page ${pageNum}/${Math.floor(songs.length / pageLength)} • ${songs.length} Songs • Duration: ${queue.formattedDuration}` })
             )
             ++pageNum
@@ -53,7 +50,7 @@ module.exports = {
         return pageArr
       }
 
-      let { id } = message.member
+      const { id } = message.member
       const embeds = embedFunc()
       const pages = {}
       pages[id] = pages[id] || 0
@@ -86,25 +83,27 @@ module.exports = {
       }
 
       reply = await message.reply({ embeds: [embed], components: [getRow(id)] }).catch(e => console.log(e))
-      collector = message.channel.createMessageComponentCollector({ filter, time })
+      collector = reply.createMessageComponentCollector({ filter, time })
 
       collector.on('collect', btnInt => {
         if(!btnInt) return
 
         btnInt.deferUpdate()
 
-        if(btnInt.customId !== 'prevEmbed' && btnInt.customId !== 'nextEmbed' && btnInt.customId !== 'trash') return
+        if(btnInt.customId !== `prevEmbed` && btnInt.customId !== `nextEmbed` && btnInt.customId !== `trash`) return
 
-        if(btnInt.customId === 'prevEmbed' && pages[id] > 0) --pages[id]
+        if(btnInt.customId === `prevEmbed` && pages[id] > 0) --pages[id]
 
-        if(btnInt.customId === 'trash' && pages[id]) reply.delete().catch(e => console.log(e))
+        if(btnInt.customId === `trash` && pages[id]) return reply.delete().catch(e => console.log(e))
+        console.log('after trash button code');
 
-        if(btnInt.customId === 'nextEmbed' && pages[id] < embeds.length - 1) ++pages[id]
+        if(btnInt.customId === `nextEmbed` && pages[id] < embeds.length - 1) ++pages[id]
 
         reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] }).catch(e => console.log(e))
       })
 
       collector.on('end', col => {
+        reply.channel.messages.fetch(reply.id)
         reply.delete().catch(e => console.log(e))
       })
     }
