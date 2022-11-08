@@ -2,7 +2,7 @@ const {
   EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder
-  } = require("discord.js")
+} = require("discord.js")
 
 module.exports = {
     data: {
@@ -50,7 +50,7 @@ module.exports = {
         return pageArr
       }
 
-      let { id } = message.member
+      const { id } = message.member
       const embeds = embedFunc()
       const pages = {}
       pages[id] = pages[id] || 0
@@ -83,25 +83,27 @@ module.exports = {
       }
 
       reply = await message.reply({ embeds: [embed], components: [getRow(id)] }).catch(e => console.log(e))
-      collector = message.channel.createMessageComponentCollector({ filter, time })
+      collector = reply.createMessageComponentCollector({ filter, time })
 
       collector.on('collect', btnInt => {
         if(!btnInt) return
 
         btnInt.deferUpdate()
 
-        if(btnInt.customId !== 'prevEmbed' && btnInt.customId !== 'nextEmbed' && btnInt.customId !== 'trash') return
+        if(btnInt.customId !== `prevEmbed` && btnInt.customId !== `nextEmbed` && btnInt.customId !== `trash`) return
 
-        if(btnInt.customId === 'prevEmbed' && pages[id] > 0) --pages[id]
+        if(btnInt.customId === `prevEmbed` && pages[id] > 0) --pages[id]
 
-        if(btnInt.customId === 'trash' && pages[id]) return reply.delete().catch(e => console.log(e))
+        if(btnInt.customId === `trash` && pages[id]) return reply.delete().catch(e => console.log(e))
+        console.log('after trash button code');
 
-        if(btnInt.customId === 'nextEmbed' && pages[id] < embeds.length - 1) ++pages[id]
+        if(btnInt.customId === `nextEmbed` && pages[id] < embeds.length - 1) ++pages[id]
 
         reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] }).catch(e => console.log(e))
       })
 
       collector.on('end', col => {
+        reply.channel.messages.fetch(reply.id)
         reply.delete().catch(e => console.log(e))
       })
     }

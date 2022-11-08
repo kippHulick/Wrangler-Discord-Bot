@@ -19,6 +19,7 @@
     "discord.js": "^14.4.0",
     "distube": "^4.0.3",
     "dotenv": "^16.0.2",
-    "libsodium-wrappers": "^0.7.10"
+    "libsodium-wrappers": "^0.7.10",
+    "uuidv4": "^6.2.13"
   }
 }
