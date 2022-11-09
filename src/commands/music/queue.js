@@ -94,7 +94,9 @@ module.exports = {
 
         if(btnInt.customId === `prevEmbed` && pages[id] > 0) --pages[id]
 
-        if(btnInt.customId === `trash` && pages[id]) return reply.delete().catch(e => console.log(e))
+        if(btnInt.customId === `trash` && pages[id]) {
+          return collector.stop()
+        }
         console.log('after trash button code');
 
         if(btnInt.customId === `nextEmbed` && pages[id] < embeds.length - 1) ++pages[id]
@@ -102,8 +104,10 @@ module.exports = {
         reply.edit({ embeds: [embeds[pages[id]]], components: [getRow(id)] }).catch(e => console.log(e))
       })
 
-      collector.on('end', col => {
-        reply.channel.messages.fetch(reply.id)
+      collector.on('end', async col => {
+        // const messageId = await reply.channel.messages.fetch(reply.id)
+        // if (!messageId) return
+        // console.log({messageId});
         reply.delete().catch(e => console.log(e))
       })
     }

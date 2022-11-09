@@ -1,5 +1,5 @@
 const { MembershipScreeningFieldType } = require("discord.js");
-const state =  require('../../commands/tools/state')
+const state =  require('../../utils/state')
 
 module.exports = {
 	name: 'messageCreate',
