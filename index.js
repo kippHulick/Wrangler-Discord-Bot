@@ -5,14 +5,12 @@ const { DiscordTogether } = require('discord-together')
 require('dotenv').config()
 const secrets = require('./src/utils/secrets')
 
+//* Discord Settings *\\
+
 const { 
 	Client,
 	Collection,
 	GatewayIntentBits, 
-	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle
 } = require("discord.js")
 
 const client = new Client({
@@ -26,7 +24,7 @@ const client = new Client({
 	]
 })
 
-//* DisTube and Discord Settings *\\
+//* DisTube Settings *\\
 
 const { SpotifyPlugin } = require('@distube/spotify')
 const { YtDlpPlugin } = require('@distube/yt-dlp')
