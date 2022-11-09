@@ -1,10 +1,10 @@
 const { Constants } = require('discord.js')
 
 module.exports = {
-    data: {
-        name: 'join',
-        aliases: ['move'],
-    },
+  data: {
+    name: 'join',
+    aliases: ['move'],
+  },
 
   execute: async (message, args) => {
     let voiceChannel = message.member.voice.channel

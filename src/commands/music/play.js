@@ -1,15 +1,9 @@
 const { 
 	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-    SelectMenuBuilder,
-    SelectMenuOptionBuilder,
-    ComponentType
 } = require("discord.js")
 
 module.exports = {
-	data: {
+    data: {
         "name": 'play',
         "aliases": ['p'],
         "inVoiceChannel": true,
