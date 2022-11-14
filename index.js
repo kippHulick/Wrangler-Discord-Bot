@@ -4,6 +4,7 @@ const { DisTube } = require('distube')
 const { DiscordTogether } = require('discord-together')
 require('dotenv').config()
 const secrets = require('./src/utils/secrets')
+const { connect } = require('mongoose')
 
 //* Discord Settings *\\
 
@@ -82,3 +83,6 @@ client.handleComponents()
 // client.handleErrors()
 
 client.login(process.env.TOKEN);
+(async () => {
+	await connect(process.env.DB_TOKEN).catch(console.error)
+})()

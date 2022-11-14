@@ -5,12 +5,93 @@ const {
 	ButtonStyle
 } = require("discord.js")
 
+const mongoose = require('mongoose')
+
+const userSchema = require('../../schemas/user')
+const guildSchema = require('../../schemas/guild')
+const playlist = require('../../schemas/playlist')
+const songSchema = require('../../schemas/song')
+
 module.exports = {
 	name: 'playSong',
 	async execute(queue, song) {
+        const { guild } = song.member
+        const { user } = song
         const { client } = queue.distube
-        const songEmbed = await client.embeds.get('song').execute(queue, song)
 
+        let songDb = await songSchema.findOne({ url: song.url })
+        if(!songDb){
+            songDb = await new songSchema({
+                _id: new mongoose.Types.ObjectId(),
+                name: song.name,
+                url: song.url,
+                songObj: song,
+            })
+            songDb.save()
+        }
+        else {
+            await songSchema.updateOne({ url: song.url }, { $inc: { plays: 1 }})
+        }
+
+        const defaultPlaylist = async (author, authorName) => {
+            const playlistId = new mongoose.Types.ObjectId()
+            const newPlaylist = new playlist({
+                _id: playlistId,
+                source: guild.name,
+                name: 'Default',
+                author,
+                authorName,
+                guild: guild.name,
+                songs: [songDb._id],
+                guildPlays: 0
+            })
+            await newPlaylist.save()
+            return playlistId
+        }
+        
+        let userProfile = await userSchema.findOne({ userId: user.id })
+        if(!userProfile) {
+            const userDbId = new mongoose.Types.ObjectId()
+            userProfile = new userSchema({
+                _id: userDbId,
+                userId: user.id,
+                userName: user.username,
+                avatar: user.avatarURL(),
+                playlists: [await defaultPlaylist(userDbId, user.username)]
+            })
+            userProfile.save()
+        } else {
+            let userDefaultPlaylist = await playlist.findOne(userProfile.playlists[0])
+            // if(!userDefaultPlaylist) {
+            //     userDefaultPlaylistId = await defaultPlaylist(userProfile._id, userProfile.userName)
+            //     await userSchema.updateOne({ _id: userProfile._id.toString() }, { playlist: [userDefaultPlaylist]})
+            //     userDefaultPlaylist = await playlist.findById(userProfile.playlists[0])
+            // }
+            if(!userDefaultPlaylist.songs.includes(songDb._id.toString())){
+                await playlist.updateOne({ _id: userDefaultPlaylist._id }, { songs: [...userDefaultPlaylist.songs, songDb._id] })
+            }
+        }
+
+        let guildProfile = await guildSchema.findOne({ guildId: guild.id })
+        if(!guildProfile){
+            const guild_id = new mongoose.Types.ObjectId()
+            guildProfile = await new guildSchema({
+                _id: guild_id,
+                guildId: guild.id,
+                guildName: guild.name,
+                playlists: [await defaultPlaylist(guild_id, guild.name)]
+            })
+            guildProfile.save()
+        }
+        else {
+            let guildDefaultPlaylist = await playlist.findOne(guildProfile.playlists[0])
+            if(!guildDefaultPlaylist.songs.includes(songDb._id.toString())){
+                await playlist.updateOne({ _id: guildDefaultPlaylist._id }, { songs: [...guildDefaultPlaylist.songs, songDb._id] })
+            }
+        }
+        // console.log({userProfile, songDb, guildProfile});
+
+        const songEmbed = await client.embeds.get('song').execute(queue, song)
 		const message = await queue.textChannel.send({ embeds: [songEmbed] })
 
         try {
