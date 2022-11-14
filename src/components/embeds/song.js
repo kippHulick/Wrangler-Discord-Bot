@@ -13,14 +13,14 @@ module.exports = {
         const { client } = queue.distube
         const status = await client.embeds.get('status').execute(queue)
         return new EmbedBuilder()
-        .setColor(0x3498db)
+        .setColor(client.colors.primary)
         .setTitle(`🎶 Playing 🎶`)
         .setDescription(`[${song.name}](${song.url})`)
         .setThumbnail(`${song.thumbnail}`)
         // .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
         .addFields([
             { name: 'Requested by', value: `<@${song.user.id}>`, inline: true },
-            { name: '🕗 Duration', value: `\`${queue.formattedCurrentTime}/${song.formattedDuration}\``, inline: true },
+            { name: '🕗 Duration', value: `\`${queue.formattedCurrentTime === '00:00' ? '' : `${queue.formattedCurrentTime}/`}${song.formattedDuration}\``, inline: true },
             ...status,
             { name: '👀 Views', value: `\`${song.views}\``, inline: true },
             { name: 'Bitrate', value: `\`${queue.voiceChannel.bitrate}\``, inline: true },

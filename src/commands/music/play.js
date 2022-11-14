@@ -28,22 +28,7 @@ module.exports = {
         if(!string) return message.channel.send('You need a song to play dum dum!')
 
         const songs = await client.distube.search(string)
-
-        const fields = () => {
-            const fields = []
-            for(i = 1; i <= 5; i ++){
-                fields.push({
-                    name: `${i}`,
-                    value: `${songs[i - 1].name}`,
-                })
-            }
-            return fields
-        }
-
-        const embed = new EmbedBuilder()
-            .setColor(0x3498db)
-            .setTitle('Pick an option below!')
-            .addFields(fields())
+        const embed = await client.embeds.get('search').execute(songs, client)
 
         try {
             const res = await message.reply({ embeds: [embed] }).catch(e => console.log(e))//, components: [buttons1, buttons2]
@@ -105,7 +90,7 @@ module.exports = {
                 editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: song.name }))
                 await res.edit({ embeds: [ 
                     new EmbedBuilder()
-                        .setColor(0x3498db)
+                        .setColor(client.colors.primary)
                         .setTitle(`You have added ${added.length} songs | ${total}`)
                         .addFields(editFields())
                 ]})

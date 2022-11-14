@@ -58,6 +58,11 @@ client.aliases = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
 client.embeds = new Collection();
+client.colors = new Collection();
+
+client.colors.primary = '0xF9a83a '
+client.colors.spotify = '0x1DB954'
+client.colors.youtube = '0xFF0000'
 
 const functionPath = path.join(__dirname, 'src/functions')
 const functionFolders = fs.readdirSync(functionPath)

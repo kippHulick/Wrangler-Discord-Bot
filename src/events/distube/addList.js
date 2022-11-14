@@ -26,10 +26,11 @@ module.exports = {
         playlistEmbed = new EmbedBuilder()
             .setTitle(`Added ${playlist.name} to the queue`)
             .setDescription(`${playlist.songs.length} Songs added`)
+            .setColor(queue.client.colors[playlist.source])
             .setURL(playlist.url)
             .setAuthor({ name: playlist.source, iconURL: icon(playlist.source) })
             .setThumbnail(playlist.thumbnail)
 
-		const message = await queue.textChannel.send({ embeds: [playlistEmbed] })
+		const message = await queue.textChannel.send({ embeds: [playlistEmbed] }).catch(e => console.log(e))
 	},
 };

@@ -1,7 +1,7 @@
 module.exports = {
     data: {
         name: 'filter',
-        aliases: ['filters'],
+        aliases: ['filters', 'f'],
         inVoiceChannel: true,
     },
 

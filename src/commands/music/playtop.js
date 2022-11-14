@@ -36,24 +36,9 @@ module.exports = {
 
     const songs = await client.distube.search(string)
 
-    const fields = () => {
-      const fields = []
-      for(i = 1; i <= 5; i ++){
-        fields.push({
-          name: `${i}`,
-          value: `${songs[i - 1].name}`,
-        })
-      }
-      return fields
-    }
+    const embed = await client.embeds.get('search').execute(songs, client)
 
-    const embed = new EmbedBuilder()
-        .setColor(0x3498db)
-        .setTitle('Pick an option below!')
-        .addFields(fields())
-    if (!string) return message.channel.send(`Please enter a song url or query to search.`)
-    const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))//, components: [buttons1, buttons2]
-    // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
+    const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))
     res.react(`1️⃣`)
     res.react(`2️⃣`)
     res.react(`3️⃣`)
@@ -61,7 +46,7 @@ module.exports = {
     res.react(`5️⃣`)
     
     const filter = (reaction, user) => {
-        return user.id === message.member.id
+      return user.id === message.member.id
     }
 
     const added = []
@@ -112,7 +97,7 @@ module.exports = {
       editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: song.name }))
       await res.edit({ embeds: [ 
         new EmbedBuilder()
-          .setColor(0x3498db)
+          .setColor(client.colors.primary)
           .setTitle(`You have added ${added.length} songs to the top of the queue | ${total}`)
           .addFields(editFields())
       ]})

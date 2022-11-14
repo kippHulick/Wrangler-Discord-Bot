@@ -4,6 +4,7 @@ module.exports = {
   data: {
     name: 'join',
     aliases: ['move'],
+    inVoiceChannel: true,
   },
 
   execute: async (message, args) => {

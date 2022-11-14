@@ -34,7 +34,7 @@ module.exports = {
           songNum.push(i + 1)
           pageArr.push(
             new EmbedBuilder()
-              .setColor(0x3498db)
+              .setColor(message.client.colors.primary)
               .setTitle('🎶 Server Queue 🎶')
               .setDescription(songField())
               .setFooter({ text: `Page ${pageNum}/${Math.floor(songs.length / pageLength)} • ${songs.length} Songs • Duration: ${queue.formattedDuration}` })
@@ -56,7 +56,7 @@ module.exports = {
     pages[id] = pages[id] || 0
     const embed = embeds[pages[id]]
     const filter = (i) => i.user.id === id || id === '1023049554884575262'
-    const time = 1000 * 60 * 1
+    const time = 1000 * 60 * 2
 
     const getRow = (id) => {
       return new ActionRowBuilder()
@@ -97,7 +97,6 @@ module.exports = {
       if(btnInt.customId === `trash` && pages[id]) {
         return collector.stop()
       }
-      console.log('after trash button code');
 
       if(btnInt.customId === `nextEmbed` && pages[id] < embeds.length - 1) ++pages[id]
 

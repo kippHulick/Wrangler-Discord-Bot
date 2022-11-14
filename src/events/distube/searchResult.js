@@ -32,7 +32,7 @@ module.exports = {
 			.setStyle(ButtonStyle.Primary))
 
 		const searchResult = new EmbedBuilder()
-			.setColor(0x3498db)
+			.setColor(message.client.colors.primary)
 			.setTitle('Choose an option below!')
 			.addFields(result.map((song, i) => {
 				return { name: `${i + 1}`, value: `${song}` }
