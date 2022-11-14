@@ -38,7 +38,8 @@ module.exports = {
             switch (emoji) {
                 case '⏮':
                     client.commands.get('previous').execute(message)
-                    message.reactions.removeAll().catch(e => console.log(e))
+                    // message.reactions.removeAll().catch(e => console.log(e))
+                    collector.stop()
                     break
 
                 case '⏸':
@@ -55,12 +56,14 @@ module.exports = {
 
                 case '⏹':
                     client.commands.get('stop').execute(message)
-                    message.reactions.removeAll().catch(e => console.log(e))
+                    // message.reactions.removeAll().catch(e => console.log(e))
+                    collector.stop()
                     break
 
                 case '⏭':
                     client.commands.get('skip').execute(message)
-                    message.reactions.removeAll().catch(e => console.log(e))
+                    // message.reactions.removeAll().catch(e => console.log(e))
+                    collector.stop()
                     break
 
                 case '🔉':
@@ -128,19 +131,27 @@ module.exports = {
 
                 case '🇶':
                     try {
-                        message.reactions.cache.get('🇶').remove().catch(e => console.log(e))
+                        for (const reaction of userReactions.values()) {
+                            await reaction.users.remove(user.id)
+                        }
                         message.member = user
                         message.user = user
                         client.commands.get('queue').execute(message)
                     } catch (error) {
-                        
+                        console.log(error)
                     }
                     break
             }
         })
 
         collector.on('end', (col) => {
+            const finalEmbed = new EmbedBuilder()
+                .setColor(client.colors.primary)
+                .setTitle(`| Played |`)
+                .setDescription(`[${song.name}](${song.url})`)
+                .setThumbnail(`${song.thumbnail}`)
             message.reactions.removeAll().catch(e => console.log(e))
+            message.edit({ embeds: [finalEmbed] })
         })
 	},
 };

@@ -10,6 +10,7 @@ module.exports = {
     },
 
     execute: async (message, args) => {
+        message.channel.sendTyping()
         const { client } = message
         console.log('Playing!')
         const string = args.join(' ')

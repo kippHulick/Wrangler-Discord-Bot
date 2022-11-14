@@ -4,6 +4,7 @@ const {
 	ButtonBuilder,
 	ButtonStyle
 } = require("discord.js")
+const Canvas = require('canvas')
 
 module.exports = {
 	data: {
@@ -18,6 +19,9 @@ module.exports = {
         if (banned.startsWith('<@') && banned.endsWith('>')) {
             const bannedUser = message.client.users.cache.get(banned.slice(2, -1))
 
+            // const canvas = Canvas.createCanvas(700, 250);
+	        // const context = canvas.getContext('2d')
+
             const reason = () => {
                 if(args.length === 0) return `No reason given`
                 else return args.join(' ')
@@ -30,6 +34,7 @@ module.exports = {
                 .setAuthor({ name: bannedUser.username, iconURL: bannedUser.avatarURL() })
                 .setDescription(`${banned} Has Been Banned`)
                 .addFields({ name: 'Reason for ban', value: reason() })
+                .setTimestamp()
 
             const reply = await message.channel.send({ embeds: [embed] }).catch(e => console.log(e))
         }
