@@ -19,6 +19,9 @@ module.exports = {
                 case 'soundcloud':
                     return 'https://w7.pngwing.com/pngs/183/887/png-transparent-soundcloud-logo-soundcloud-computer-icons-logo-soundcloud-logo-orange-desktop-wallpaper-music-download-thumbnail.png'
 
+                case 'custom':
+                    return 'https://upload.wikimedia.org/wikipedia/commons/7/75/Scratch.logo.S.png'
+
                 default:
                     return ''
             }
@@ -26,7 +29,7 @@ module.exports = {
         playlistEmbed = new EmbedBuilder()
             .setTitle(`Added ${playlist.name} to the queue`)
             .setDescription(`${playlist.songs.length} Songs added`)
-            .setColor(queue.client.colors[playlist.source])
+            .setColor(queue.client.colors[playlist.source] || queue.client.colors.primary)
             .setURL(playlist.url)
             .setAuthor({ name: playlist.source, iconURL: icon(playlist.source) })
             .setThumbnail(playlist.thumbnail)

@@ -15,7 +15,7 @@ const songSchema = require('../../schemas/song')
 module.exports = {
 	name: 'playSong',
 	async execute(queue, song) {
-        const { guild } = song.member
+        const { guild } = queue.textChannel
         const { user } = song
         const { client } = queue.distube
 
