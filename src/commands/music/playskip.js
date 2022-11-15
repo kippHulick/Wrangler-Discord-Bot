@@ -64,12 +64,13 @@ module.exports = {
       )
       const totalDuration = added.reduce((acc, obj) => (acc + Number(obj.duration)), 0)
       const total = new Date(totalDuration * 1000).toISOString().substr(11, 8);
-      editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: song.name }))
+      editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: `[${song.name}](${song.url})` }))
       await res.edit({ embeds: [ 
         new EmbedBuilder()
           .setColor(client.colors.primary)
           .setTitle(`You have skipped the current song for: | ${total}`)
           .addFields(editFields())
+          .setThumbnail(`${added[0].thumbnail}`)
       ]})
       res.reactions.removeAll().catch(e => console.log(e))
       added.push(songs[idx])

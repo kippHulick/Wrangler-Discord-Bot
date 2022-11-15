@@ -21,11 +21,12 @@ module.exports = {
 
         let songDb = await songSchema.findOne({ url: song.url })
         if(!songDb){
-            songDb = await new songSchema({
+            songDb = new songSchema({
                 _id: new mongoose.Types.ObjectId(),
                 name: song.name,
                 url: song.url,
                 songObj: song,
+                plays: 1
             })
             songDb.save()
         }
@@ -43,7 +44,7 @@ module.exports = {
                 authorName,
                 guild: guild.name,
                 songs: [songDb._id],
-                guildPlays: 0
+                plays: 0
             })
             await newPlaylist.save()
             return playlistId
@@ -62,11 +63,11 @@ module.exports = {
             userProfile.save()
         } else {
             let userDefaultPlaylist = await playlist.findOne(userProfile.playlists[0])
-            // if(!userDefaultPlaylist) {
-            //     userDefaultPlaylistId = await defaultPlaylist(userProfile._id, userProfile.userName)
-            //     await userSchema.updateOne({ _id: userProfile._id.toString() }, { playlist: [userDefaultPlaylist]})
-            //     userDefaultPlaylist = await playlist.findById(userProfile.playlists[0])
-            // }
+            if(!userDefaultPlaylist) {
+                userDefaultPlaylistId = await defaultPlaylist(userProfile._id, userProfile.userName)
+                await userSchema.updateOne({ _id: userProfile._id.toString() }, { playlist: [userDefaultPlaylistId]})
+                userDefaultPlaylist = await playlist.findById(userProfile.playlists[0])
+            }
             if(!userDefaultPlaylist.songs.includes(songDb._id.toString())){
                 await playlist.updateOne({ _id: userDefaultPlaylist._id }, { songs: [...userDefaultPlaylist.songs, songDb._id] })
             }
@@ -75,7 +76,7 @@ module.exports = {
         let guildProfile = await guildSchema.findOne({ guildId: guild.id })
         if(!guildProfile){
             const guild_id = new mongoose.Types.ObjectId()
-            guildProfile = await new guildSchema({
+            guildProfile = new guildSchema({
                 _id: guild_id,
                 guildId: guild.id,
                 guildName: guild.name,
@@ -119,7 +120,6 @@ module.exports = {
             switch (emoji) {
                 case '⏮':
                     client.commands.get('previous').execute(message)
-                    // message.reactions.removeAll().catch(e => console.log(e))
                     collector.stop()
                     break
 
@@ -137,13 +137,11 @@ module.exports = {
 
                 case '⏹':
                     client.commands.get('stop').execute(message)
-                    // message.reactions.removeAll().catch(e => console.log(e))
                     collector.stop()
                     break
 
                 case '⏭':
                     client.commands.get('skip').execute(message)
-                    // message.reactions.removeAll().catch(e => console.log(e))
                     collector.stop()
                     break
 
@@ -228,7 +226,7 @@ module.exports = {
         collector.on('end', (col) => {
             const finalEmbed = new EmbedBuilder()
                 .setColor(client.colors.primary)
-                .setTitle(`| Played |`)
+                .setTitle(`| Finished Playing |`)
                 .setDescription(`[${song.name}](${song.url})`)
                 .setThumbnail(`${song.thumbnail}`)
             message.reactions.removeAll().catch(e => console.log(e))

@@ -8,7 +8,7 @@ const playlistSchema = new Schema({
     authorName: String,
     guild: String,
     songs: [{ type: Schema.Types.ObjectId, ref: 'Song' }],
-    guildPlays: { type: Number, default: 1 }
+    plays: { type: Number, default: 1 }
 })
 
 module.exports = model('Playlist', playlistSchema, 'playlists')

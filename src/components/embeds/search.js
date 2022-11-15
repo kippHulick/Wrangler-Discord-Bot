@@ -13,9 +13,10 @@ module.exports = {
         const fields = () => {
             const fields = []
             for(i = 1; i <= 5; i ++){
+                const song = songs[i - 1]
                 fields.push({
                     name: `${i}`,
-                    value: `${songs[i - 1].name}`,
+                    value: `[${song.name}](${song.url})`,
                 })
             }
             return fields
@@ -25,5 +26,6 @@ module.exports = {
             .setColor(client.colors.primary)
             .setTitle('Pick an option below!')
             .addFields(fields())
+            .setThumbnail(`${songs[0].thumbnail}`)
     }
 }

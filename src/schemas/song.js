@@ -4,7 +4,7 @@ const songSchema = new Schema({
     name: String,
     url: String,
     songObj: Object,
-    plays: { type: Number, default: 1 }
+    plays: { type: Number, default: 0 }
 })
 
 module.exports = model('Song', songSchema, 'songs')
