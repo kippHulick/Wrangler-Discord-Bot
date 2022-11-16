@@ -6,7 +6,6 @@ module.exports = {
     data: {
         "name": 'lyrics',
         "aliases": ['l'],
-        "inVoiceChannel": true,
     },
 
     execute: async (message, args) => {
