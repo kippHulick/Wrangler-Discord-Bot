@@ -10,7 +10,6 @@ const db = {
         const playlistId = new mongoose.Types.ObjectId()
         const newPlaylist = new playlistSchema({
             _id: playlistId,
-            source: guild.name,
             name: 'Default',
             author,
             authorName,
@@ -61,7 +60,6 @@ const db = {
         playlist.songs.forEach(song => promises.push(songSchema.findById(song._id.toString())))
         await Promise.all(promises).then(async songArr => {
             const playlistSongs = songArr.map(song => song.songObj.url)
-            console.log({playlistSongs});
             const distubePlaylist = await message.client.distube.createCustomPlaylist(playlistSongs, {
                 member: message.member,
                 properties: { name: `${user}'s Playlist`, source: "custom" },
