@@ -43,7 +43,17 @@ const db = {
     },
 
     async songPlays(song){
-        const songDb = await this.getSong(song)
+        let songDb = await this.getSong(song)
+        if(!songDb){
+            songDb = new songSchema({
+                _id: new mongoose.Types.ObjectId(),
+                name: song.name,
+                url: song.url,
+                songObj: song,
+                plays: 1
+            })
+            songDb.save()
+        }
         return songDb.plays
     },
 
