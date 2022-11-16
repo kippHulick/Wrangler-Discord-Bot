@@ -80,7 +80,7 @@ module.exports = {
             )
         }
 
-        reply = await message.reply({ embeds: [embed], components: [getRow(id)] }).catch(e => console.log(e))
+        reply = await message.channel.send({ embeds: [embed], components: [getRow(id)] }).catch(e => console.log(e))
         collector = reply.createMessageComponentCollector({ filter, time })
 
         collector.on('collect', btnInt => {
