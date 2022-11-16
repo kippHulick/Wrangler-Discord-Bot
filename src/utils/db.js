@@ -14,7 +14,6 @@ const db = {
             name: 'Default',
             author,
             authorName,
-            guild: guild.name,
             songs: [],
             plays: 0
         })
