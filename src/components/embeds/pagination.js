@@ -9,7 +9,7 @@ module.exports = {
     data: {
         name: 'pagination'
     },
-    async execute(message, queue) {
+    async execute(message, queue, opt) {
 
         const embedFunc = () => {
             const pageLength = 10
@@ -22,7 +22,7 @@ module.exports = {
                 let song = songs[i]
                 if( (i + 1) % pageLength === 0 || i === songs.length ){
                     const songField = () => {
-                        songString = `**Playing:** [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>\n**Next Songs:**\n`
+                        songString = opt ? `` : `**Playing:** [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>\n**Next Songs:**\n`
                         songArr.forEach((songObj, j) => songString = `${songString}**${songNum[j]}.** [${songObj.name}](${songObj.url}) - \`${songObj.formattedDuration}\`\n`)
                         return songString
                     }
@@ -32,7 +32,7 @@ module.exports = {
                     pageArr.push(
                         new EmbedBuilder()
                         .setColor(client.colors.primary)
-                        .setTitle('🎶 Server Queue 🎶')
+                        .setTitle(opt ? `${opt.playlistName}\n` : '🎶 Server Queue 🎶')
                         .setDescription(songField())
                         .setFooter({ text: `Page ${pageNum}/${Math.floor(songs.length / pageLength)} • ${songs.length} Songs ${queue.formattedDuration ? '• Duration:' + queue.formattedDuration : ''}` })
                     )

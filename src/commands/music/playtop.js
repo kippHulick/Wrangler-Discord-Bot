@@ -1,13 +1,3 @@
-const { 
-	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle,
-  SelectMenuBuilder,
-  SelectMenuOptionBuilder,
-  ComponentType
-} = require("discord.js")
-
 module.exports = {
   data: {
     "name": 'playtop',
@@ -92,16 +82,7 @@ module.exports = {
 
     collector.on('end', async (collected) => {
       if (added.length === 0) return res.delete().catch(e => console.log(e))
-      const totalDuration = added.reduce((acc, obj) => (acc + Number(obj.duration)), 0)
-      const total = new Date(totalDuration * 1000).toISOString().substr(11, 8);
-      editFields = () => added.map((song, i) => ({ name: `${i + 1} - ${song.formattedDuration}`, value: `[${song.name}](${song.url})` }))
-      await res.edit({ embeds: [ 
-        new EmbedBuilder()
-          .setColor(client.colors.primary)
-          .setTitle(`You have added ${added.length} songs to the top of the queue | ${total}`)
-          .addFields(editFields())
-          .setThumbnail(`${added[0].thumbnail}`)
-      ]})
+      await res.edit({ embeds: [ await client.embeds.get('searchFinish').execute(added, client) ]})
       res.reactions.removeAll().catch(e => console.log(e))
     })
   }

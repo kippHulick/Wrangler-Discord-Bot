@@ -1,7 +1,7 @@
 const formatInt = (int) => (int < 10 ? `0${int}` : int);
 
 const format = {
-    formatDuration(sec){
+    time(sec){
         if (!sec || !Number(sec)) return "00:00";
     const seconds = Math.round(sec % 60);
     const minutes = Math.floor((sec % 3600) / 60);
