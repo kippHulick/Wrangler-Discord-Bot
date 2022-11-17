@@ -19,6 +19,7 @@ module.exports = {
         try {
             const res = await fetch(url.href)
             const data = await res.json()
+            if(!data) return
             let lines = data.lyrics.replace(/--/g, "\n")
             const embed = new EmbedBuilder()
                 .setColor(message.client.colors.primary)
