@@ -47,12 +47,14 @@ module.exports = {
                     message.reactions.cache.get('⏸').remove().catch(e => console.log(e))
                     message.react('▶️')
                     client.commands.get('pause').execute(message)
+                    message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     break
 
                 case '▶️':
                     message.reactions.cache.get('▶️').remove().catch(e => console.log(e))
                     message.react('⏸')
                     client.commands.get('pause').execute(message)
+                    message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     break
 
                 case '⏹':
@@ -72,6 +74,7 @@ module.exports = {
                         }
                         volDown = queue.volume >= 10 ? queue.volume - 10 : 0
                         client.commands.get('volume').execute(message, [String(volDown)])
+                        message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     } catch (error) {
                         console.log(error);
                     }
@@ -84,6 +87,7 @@ module.exports = {
                         }
                         volUp = queue.volume <= 90 ? queue.volume + 10 : 100
                         client.commands.get('volume').execute(message, [String(volUp)])
+                        message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     } catch (error) {
                         console.log(error);
                     }
@@ -91,6 +95,7 @@ module.exports = {
 
                 case '🔀':
                     client.commands.get('shuffle').execute(message)
+                    message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     break
 
                 case '🔁':
@@ -110,6 +115,7 @@ module.exports = {
                                 break
                         }
                         client.commands.get('repeat').execute(message, [arg])
+                        message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     } catch (error) {
                         console.log(error);
                     }
@@ -123,6 +129,7 @@ module.exports = {
                         }
                         
                         client.commands.get('autoplay').execute(message)
+                        message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     } catch (error) {
                         console.log(error);
                     }

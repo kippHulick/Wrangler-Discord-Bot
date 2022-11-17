@@ -59,11 +59,19 @@ client.aliases = new Collection();
 client.buttons = new Collection();
 client.selectMenus = new Collection();
 client.embeds = new Collection();
-client.colors = new Collection();
 
-client.colors.primary = '0xF9a83a '
-client.colors.spotify = '0x1DB954'
-client.colors.youtube = '0xFF0000'
+client.colors = {
+	primary: '0xF9a83a',
+	spotify: '0x1DB954',
+	youtube: '0xFF0000',
+}
+
+client.customEmojis = {
+	spotify: '<:spotify:1042861901849305138>',
+	soundcloud: '<:soundCloud:1042861828247658496>',
+	youtube: '<:youTube:1042861956845023353>',
+	custom: '<:scratch:1042861802523983962>'
+}
 
 const functionPath = path.join(__dirname, 'src/functions')
 const functionFolders = fs.readdirSync(functionPath)

@@ -1,3 +1,5 @@
+const { SoundCloudPlugin } = require("@distube/soundcloud")
+
 module.exports = {
   data: {
     "name": 'playtop',
@@ -24,7 +26,7 @@ module.exports = {
 
     if(!string) return message.channel.send('You need a song to play dum dum!')
 
-    const songs = await client.distube.search(string)
+    const songs = await SoundCloudPlugin.search(string)
 
     const embed = await client.embeds.get('search').execute(songs, client)
 

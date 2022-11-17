@@ -12,13 +12,14 @@ module.exports = {
         name: 'song'
     },
     async execute(queue, song) {
+        console.log(song.playlist);
         const { client } = queue.distube
         let songPlays = await db.songPlays(song)
         const status = await client.embeds.get('status').execute(queue)
         return new EmbedBuilder()
         .setColor(client.colors.primary)
         .setTitle(`🎶 Playing 🎶`)
-        .setDescription(`[${song.name}](${song.url})`)
+        .setDescription(song.playlist ? ` **Playlist**: ${client.customEmojis[song.playlist.source]} [${song.playlist.name}](${song.playlist.url})\n**Current Song**: ${client.customEmojis[song.source]} [${song.name}](${song.url})` : `**Current Song**: ${client.customEmojis[song.source]} [${song.name}](${song.url})`)
         .setThumbnail(`${song.thumbnail}`)
         // .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
         .addFields([
