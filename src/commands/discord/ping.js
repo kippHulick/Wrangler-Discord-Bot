@@ -5,6 +5,7 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
-		return interaction.reply('Pong!');
+		const { client } = interaction
+		return interaction.channel.send(`🏓 Bot server latency is ${Date.now() - interaction.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
 	},
 };
