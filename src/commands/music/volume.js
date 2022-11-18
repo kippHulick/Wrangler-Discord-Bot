@@ -11,6 +11,6 @@ module.exports = {
     const volume = parseInt(args[0])
     if (isNaN(volume)) return message.channel.send(`Please enter a valid number!`)
     queue.setVolume(volume)
-    message.channel.send(`Volume set to \`${volume}\``)
+    // message.channel.send(`Volume set to \`${volume}\``)
   }
 }

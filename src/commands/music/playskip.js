@@ -42,11 +42,9 @@ module.exports = {
     if (!string) return message.channel.send(`Please enter a song url or query to search.`)
     const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))//, components: [buttons1, buttons2]
     // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
-    res.react(`1️⃣`)
-    res.react(`2️⃣`)
-    res.react(`3️⃣`)
-    res.react(`4️⃣`)
-    res.react(`5️⃣`)
+    for(let i = 1 ; i === songs.length; i++){
+      res.react(client.customEmojis[i])
+  }
     
     const filter = (reaction, user) => {
         return user.id === message.member.id
@@ -71,28 +69,29 @@ module.exports = {
     const collector = res.createReactionCollector({ filter, time: 10000 })
     collector.on('collect', (reaction, user) => {
       const emoji = reaction.emoji.name
+      helper(Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji))
 
-      switch (emoji) {
-        case '1️⃣':
-          helper(0)
-          break
+      // switch (emoji) {
+      //   case '1️⃣':
+      //     helper(0)
+      //     break
 
-        case '2️⃣':
-          helper(1)
-          break
+      //   case '2️⃣':
+      //     helper(1)
+      //     break
 
-        case '3️⃣':
-          helper(2)
-          break
+      //   case '3️⃣':
+      //     helper(2)
+      //     break
 
-        case '4️⃣':
-          helper(3)
-          break
+      //   case '4️⃣':
+      //     helper(3)
+      //     break
 
-        case '5️⃣':
-          helper(4)
-          break
-      }
+      //   case '5️⃣':
+      //     helper(4)
+      //     break
+      // }
     })
 
     collector.on('end', async (collected) => {

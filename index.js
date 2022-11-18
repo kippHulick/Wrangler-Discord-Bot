@@ -45,7 +45,7 @@ client.distube = new DisTube(client, {
 			}
 		}),
 		new SoundCloudPlugin(),
-		new YtDlpPlugin()
+		new YtDlpPlugin({ update: true })
 	],
 	youtubeCookie: secrets.youTubeCookie
 })
@@ -68,9 +68,30 @@ client.colors = {
 
 client.customEmojis = {
 	spotify: '<:spotify:1042861901849305138>',
-	soundcloud: '<:soundCloud:1042861828247658496>',
+	soundcloud: '<:soundcloud:1043180252354072608>',
 	youtube: '<:youTube:1042861956845023353>',
-	custom: '<:scratch:1042861802523983962>'
+	custom: '<:scratch:1042861802523983962>',
+	q: '🇶',
+	volDown: '🔉',
+	volUp: '🔊',
+	shuffle: '🔀',
+	loop: '🔁',
+	autoPlay: '🔄',
+	previous: '⏮',
+	stop: '⏹',
+	skip: '⏭',
+	pause: '⏸',
+	play: '▶️',
+	1: '1️⃣',
+	2: '2️⃣',
+	3: '3️⃣',
+	4: '4️⃣',
+	5: '5️⃣',
+	6: '6️⃣',
+	7: '7️⃣',
+	8: '8️⃣',
+	9: '9️⃣',
+	10: '🔟',
 }
 
 const functionPath = path.join(__dirname, 'src/functions')

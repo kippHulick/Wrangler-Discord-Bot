@@ -15,7 +15,7 @@ module.exports = {
 
     try {
       const song = await queue.skip()
-      message.channel.send(`Skipped!`)
+      // message.channel.send(`Skipped!`)
     } catch (e) {
       message.channel.send(`Error: ${e}`)
     }

@@ -10,7 +10,6 @@ module.exports = {
         name: 'search'
     },
     async execute(songs, client) {
-        console.log(songs);
         const emojis = {
             'spotify': '<:spotify:1042861901849305138>',
             'soundcloud': '<:soundCloud:1042861828247658496>',
@@ -18,22 +17,23 @@ module.exports = {
         }
 
         const fields = () => {
-            const fields = []
-            for(i = 1; i <= 5; i ++){
+            let str = ''
+            for(i = 1; i <= songs.length; i ++){
                 const song = songs[i - 1]
                 if(!song) continue
-                fields.push({
-                    name: `${i}`,
-                    value: song.source ?client.customEmojis[song.source] + ` [${song.name}](${song.url})` : `[${song.name}](${song.url})`,
-                })
+                str += song.source ? `${client.customEmojis[song.source]} **${i}** [${song.name}](${song.url}) \`${song.formattedDuration}\`\n` : `**${i}** [${song.name}](${song.url}) \`${song.formattedDuration}\`\n`
+                // fields.push({
+                //     name: `${i}`,
+                //     value: song.source ? client.customEmojis[song.source] + ` [${song.name}](${song.url})` : `[${song.name}](${song.url})`,
+                // })
             }
-            return fields
+            return str
         }
 
         return new EmbedBuilder()
             .setColor(client.colors.primary)
             .setTitle('Pick an option below!')
-            .addFields(fields())
+            .setDescription(fields())
             .setThumbnail(`${songs[0].thumbnail}`)
     }
 }

@@ -14,7 +14,6 @@ module.exports = {
         const embedFunc = () => {
             const pageLength = 10
             const { songs } = queue
-            console.log(songs[0].source);
             const pageArr = []
             let songArr = []
             let songNum = []

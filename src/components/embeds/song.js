@@ -12,15 +12,13 @@ module.exports = {
         name: 'song'
     },
     async execute(queue, song) {
-        console.log(song.playlist);
         const { client } = queue.distube
         let songPlays = await db.songPlays(song)
         const status = await client.embeds.get('status').execute(queue)
-        return new EmbedBuilder()
+        const embed = new EmbedBuilder()
         .setColor(client.colors.primary)
         .setTitle(`🎶 Playing 🎶`)
         .setDescription(song.playlist ? ` **Playlist**: ${client.customEmojis[song.playlist.source]} [${song.playlist.name}](${song.playlist.url})\n**Current Song**: ${client.customEmojis[song.source]} [${song.name}](${song.url})` : `**Current Song**: ${client.customEmojis[song.source]} [${song.name}](${song.url})`)
-        .setThumbnail(`${song.thumbnail}`)
         // .setAuthor({ name: `${song.user.username}`, iconURL: 'https://i.imgur.com/AfFp7pu.png', url: 'https://discord.js.org' })
         .addFields([
             { name: 'Requested by', value: `<@${song.user.id}>`, inline: true },
@@ -31,6 +29,10 @@ module.exports = {
             { name: 'Bitrate', value: `\`${queue.voiceChannel.bitrate || '64000'}\``, inline: true },
         ])
         .setFooter({ text: 'This bot was coded by Kipp in Scratch™️', iconURL: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Scratch.logo.S.png' })
+
+        if(song.thumbnail) embed.setThumbnail(song.thumbnail)
+
+        return embed
 
     }
 }
