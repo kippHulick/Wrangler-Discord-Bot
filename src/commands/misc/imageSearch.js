@@ -15,19 +15,13 @@ module.exports = {
         const url = new URL('https://serpapi.com/search')
         url.searchParams.append('tbm', 'isch')
         url.searchParams.append('q', image)
-        url.searchParams.append('key', process.env.SERP_KEY)
+        url.searchParams.append('api_key', process.env.SERP_KEY)
 
         try {
             const res = await fetch(url.href, {headers: {key: process.env.SERP_KEY } })
 
             const data = await res.json()
             const image = data.images_results[0]
-            console.log(image);
-            // const embed = new EmbedBuilder()
-            //     .setColor(message.client.colors.primary)
-            //     .setTitle(data.sentence)
-            //     .setAuthor({ name: data.character })
-            //     .setDescription(data.anime)
 
             const reply = await message.channel.send(image.original)
 

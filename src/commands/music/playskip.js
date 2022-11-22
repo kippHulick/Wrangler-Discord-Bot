@@ -7,7 +7,6 @@ const {
   SelectMenuOptionBuilder,
   ComponentType
 } = require("discord.js")
-const { SoundCloudPlugin } = require("@distube/soundcloud")
 
 module.exports = {
   data: {
@@ -35,16 +34,16 @@ module.exports = {
 
     if(!string) return message.channel.send('You need a song to play dum dum!')
 
-    const songs = await SoundCloudPlugin.search(string)
+    const songs = await client.distube.search(string)
 
     const embed = await client.embeds.get('search').execute(songs, client)
 
     if (!string) return message.channel.send(`Please enter a song url or query to search.`)
     const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))//, components: [buttons1, buttons2]
     // const reply = await message.awaitMessageComponent(opt).then(i => console.log(i))
-    for(let i = 1 ; i === songs.length; i++){
+    for(let i = 1 ; i <= songs.length; i++){
       res.react(client.customEmojis[i])
-  }
+    }
     
     const filter = (reaction, user) => {
         return user.id === message.member.id

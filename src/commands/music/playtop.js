@@ -1,5 +1,3 @@
-const { SoundCloudPlugin } = require("@distube/soundcloud")
-
 module.exports = {
   data: {
     "name": 'playtop',
@@ -26,12 +24,13 @@ module.exports = {
 
     if(!string) return message.channel.send('You need a song to play dum dum!')
 
-    const songs = await SoundCloudPlugin.search(string)
+    const songs = await client.distube.search(string)
 
     const embed = await client.embeds.get('search').execute(songs, client)
 
     const res = await message.reply({ embeds: [embed], ephemeral: true }).catch(e => console.log(e))
-    for(let i = 1 ; i === songs.length; i++){
+    console.log(client.customEmojis[1])
+    for(let i = 1 ; i <= songs.length; i++){
       res.react(client.customEmojis[i])
     }
     
