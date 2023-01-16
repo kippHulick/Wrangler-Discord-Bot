@@ -20,7 +20,7 @@ module.exports = {
             let pageNum = 1
             for(const i of songs.keys()){
                 let song = songs[i]
-                if( (i + 1) % pageLength === 0 || i === songs.length ){
+                if( (i + 1) % pageLength === 0 || (i + 1) === songs.length ){
                     const songField = () => {
                         songString = opt ? `` : `**Playing:** ${client.customEmojis[songs[0].source]} [${songs[0].name}](${songs[0].url})\nDuration: \`${songs[0].formattedDuration}\` - Requested by <@${song.user.id}>\n\n**Next Songs:**\n`
                         songArr.forEach((songObj, j) => songString = `${songString}${client.customEmojis[songObj.source]} **${songNum[j]}.** [${songObj.name}](${songObj.url}) - \`${songObj.formattedDuration}\`\n`)

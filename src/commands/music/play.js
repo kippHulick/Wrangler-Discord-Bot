@@ -56,39 +56,33 @@ module.exports = {
                 added.push(songs[idx])
             }
 
-            const collector = res.createReactionCollector({ filter, time: 10000 })
-            collector.on('collect', (reaction, user) => {
+            const messageFilter = (reply) => reply.author.id === message.member.id
+
+            const messageCollector = res.channel.createMessageCollector({ messageFilter, time: 10000 })
+
+            const reactionCollector = res.createReactionCollector({ filter, time: 10000 })
+            reactionCollector.on('collect', (reaction, user) => {
                 const emoji = reaction.emoji.name
                 const emojiKey = Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji)
                 helper(emojiKey - 1)
 
-                // switch (emoji) {
-                //     case '1️⃣':
-                //         helper(0)
-                //         break
-
-                //     case '2️⃣':
-                //         helper(1)
-                //         break
-
-                //     case '3️⃣':
-                //         helper(2)
-                //         break
-
-                //     case '4️⃣':
-                //         helper(3)
-                //         break
-
-                //     case '5️⃣':
-                //         helper(4)
-                //         break
-                // }
             })
 
-            collector.on('end', async (collected) => {
+            reactionCollector.on('end', async (collected) => {
                 if (added.length === 0) return res.delete().catch(e => console.log(e))
                 await res.edit({ embeds: [ await client.embeds.get('searchFinish').execute(added, client) ]})
                 res.reactions.removeAll().catch(e => console.log(e))
+            })
+
+            messageCollector.on('collect', m => {
+                const numCheck = m.content.replaceAll(' ', '')
+                if(!(isNaN(Number(numCheck)))){
+                    const songNums = m.content.split(' ')
+                    songNums.forEach(num => helper(num))
+
+                    messageCollector.stop()
+                    reactionCollector.stop()
+                }
             })
 
         } catch (error) {
