@@ -5,6 +5,6 @@ module.exports = {
   },
 
   execute: async (message, args) => {
-    client.distube.voices.leave(message)
+    message.client.distube.voices.leave(message)
   }
 }
