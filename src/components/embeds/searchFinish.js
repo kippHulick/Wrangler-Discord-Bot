@@ -11,7 +11,7 @@ module.exports = {
         name: 'searchFinish'
     },
     async execute(added, client) {
-        const total = format.time(added.reduce((acc, obj) => (acc + obj.duration? 0), 0))
+//         const total = format.time(added.reduce((acc, obj) => (acc + obj.duration), 0))
         const description = () => {
             let str = ''
             added.forEach((song, i) => str += `${client.customEmojis[song.source]} **${i + 1}** [${song.name}](${song.url}) ${song.formattedDuration}\n`)
@@ -20,7 +20,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(client.colors.primary)
-            .setTitle(`You added ${added.length} songs | ${total}`)
+            .setTitle(`You added ${added.length} songs | shrug emoji`)
             .setDescription(description())
 
         if(added[0].thumbnail) embed.setThumbnail(added[0].thumbnail)
