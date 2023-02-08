@@ -27,6 +27,7 @@ module.exports = {
                 //     value: song.source ? client.customEmojis[song.source] + ` [${song.name}](${song.url})` : `[${song.name}](${song.url})`,
                 // })
             }
+            str += `Type <1 2 3 4 5...>  to select a song (can select more than one)`
             return str
         }
 

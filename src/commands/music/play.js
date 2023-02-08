@@ -64,25 +64,25 @@ module.exports = {
             reactionCollector.on('collect', (reaction, user) => {
                 const emoji = reaction.emoji.name
                 const emojiKey = Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji)
-                helper(emojiKey - 1)
-
-            })
-
-            reactionCollector.on('end', async (collected) => {
-                if (added.length === 0) return res.delete().catch(e => console.log(e))
-                await res.edit({ embeds: [ await client.embeds.get('searchFinish').execute(added, client) ]})
-                res.reactions.removeAll().catch(e => console.log(e))
+                if (Number(emojiKey) >= 0) { helper(Number(emojiKey) - 1)}
             })
 
             messageCollector.on('collect', m => {
                 const numCheck = m.content.replaceAll(' ', '')
                 if(!(isNaN(Number(numCheck)))){
                     const songNums = m.content.split(' ')
-                    songNums.forEach(num => helper(num))
+                    songNums.forEach(num => {
+                        if (num) {return helper(num)}})
 
                     messageCollector.stop()
                     reactionCollector.stop()
                 }
+            })
+
+            reactionCollector.on('end', async (collected) => {
+                if (added.length === 0) return res.delete().catch(e => console.log(e))
+                await res.edit({ embeds: [ await client.embeds.get('searchFinish').execute(added, client) ]})
+                res.reactions.removeAll().catch(e => console.log(e))
             })
 
         } catch (error) {
