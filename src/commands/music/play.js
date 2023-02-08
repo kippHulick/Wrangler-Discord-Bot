@@ -71,12 +71,17 @@ module.exports = {
                 const numCheck = m.content.replaceAll(' ', '')
                 if(!(isNaN(Number(numCheck)))){
                     const songNums = m.content.split(' ')
-                    songNums.forEach(num => {
-                        if (num) {return helper(num)}})
+                    
+                    songNums.forEach((number, i) => {
+                        let num = Number(number)
+                        setTimeout(() => {
+                            if (num) { num <= 10 && num >= 0 ? helper(num - 1) : message.channel.send('Pick a valid number next time buddy!') }  
+                        }, i * 300)
+                    })
 
                     messageCollector.stop()
-                    reactionCollector.stop()
                 }
+    
             })
 
             reactionCollector.on('end', async (collected) => {

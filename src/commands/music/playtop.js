@@ -56,28 +56,6 @@ module.exports = {
     collector.on('collect', (reaction, user) => {
       const emoji = reaction.emoji.name
       helper(Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji))
-
-      // switch (emoji) {
-      //   case client.customEmojis[1]:
-      //     helper(0)
-      //     break
-
-      //   case client.customEmojis[2]:
-      //     helper(1)
-      //     break
-
-      //   case client.customEmojis[3]:
-      //     helper(2)
-      //     break
-
-      //   case client.customEmojis[4]:
-      //     helper(3)
-      //     break
-
-      //   case '5️⃣':
-      //     helper(4)
-      //     break
-      // }
     })
 
     collector.on('end', async (collected) => {
