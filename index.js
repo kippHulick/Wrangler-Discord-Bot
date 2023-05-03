@@ -61,9 +61,9 @@ client.selectMenus = new Collection();
 client.embeds = new Collection();
 
 client.colors = {
-	primary: '0xF9a83a',
-	spotify: '0x1DB954',
-	youtube: '0xFF0000',
+	primary: 0xF9a83a,
+	spotify: 0x1DB954,
+	youtube: 0xFF0000,
 }
 
 client.customEmojis = {
