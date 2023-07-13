@@ -16,12 +16,11 @@ module.exports = {
         console.log('Playing!')
         const string = args.join(' ')
 
+
         // Woman Permmisions Check \\
 
         if(message.member.roles.cache.has('1051027080202166362')) { // if woman:
-
             const woman_name = message.author.username
-
             // message.channel.send('youre banning' + args[0]);
             const womanRebuke = new EmbedBuilder()
                 .setColor(message.client.colors.youtube)
@@ -46,25 +45,28 @@ module.exports = {
 
             const womanFilter = (reply) => !reply.author.roles.cace.has('1051027080202166362')
             const confirmationCollector = message.channel.createMessageCollector({ womanFilter, time: 10000 })
-            
+    
+
             confirmationCollector.on('collect', m => {
                 // Logic For Denying Or Confirming
-                if(m.lowercase.startsWith('deny')) {
+                let confirm_deny = message.toLowerCase()
+                if(confirm_deny.startsWith('deny')) {
                     const str = message.content
                     const index = str.indexOf(" "); // chop string in half at the first whitespace
                     const firstHalf = str.slice(0, index);
                     const secondHalf = str.slice(index + 1);
-                    console.log(`Permission Denied. Reason: ${secondhalf}`)
+                    message.channel.send(`Permission Denied. Reason: ${secondHalf}`)
+                    exit() // break out of function if permission denied
                 }
                 else {
-                    console.log('Permission Granted! Your song will now play.')  
+                    message.channel.send('Permission Granted! Your song will now play.')
                 }
                 
                 sentMessage.delete()
             })
         }
 
-        if(string.slice(0, 4) === 'http'){
+        if(string.slice(0, 4) === 'http') {
             client.distube.play(
                 message.member.voice.channel, string, {
                     textChannel: message.channel,
