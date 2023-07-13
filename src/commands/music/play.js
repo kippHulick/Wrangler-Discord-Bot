@@ -16,6 +16,12 @@ module.exports = {
         console.log('Playing!')
         const string = args.join(' ')
 
+        // Woman Permmisions Check \\
+
+        if(message.member.roles.cache.has('1051027080202166362')) {
+            
+        }
+
         if(string.slice(0, 4) === 'http'){
             client.distube.play(
                 message.member.voice.channel, string, {
