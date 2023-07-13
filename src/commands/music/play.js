@@ -60,7 +60,7 @@ module.exports = {
                     console.log('Permission Granted! Your song will now play.')  
                 }
                 
-                sentMessage.delete
+                sentMessage.delete()
             })
         }
 
