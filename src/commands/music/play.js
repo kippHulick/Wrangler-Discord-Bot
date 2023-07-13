@@ -18,8 +18,50 @@ module.exports = {
 
         // Woman Permmisions Check \\
 
-        if(message.member.roles.cache.has('1051027080202166362')) {
+        if(message.member.roles.cache.has('1051027080202166362')) { // if woman:
+
+            const woman_name = message.author.username
+
+            // message.channel.send('youre banning' + args[0]);
+            const womanRebuke = new EmbedBuilder()
+                .setColor(message.client.colors.youtube)
+                .setTitle('🚨🚨🚨 Woman Permission Alert 🚨🚨🚨')
+                //.setAuthor({ name: bannedUser.username, iconURL: bannedUser.avatarURL() })
+                .setDescription(`${woman_name} (Woman) Is Trying To Play A Song Without A Man's Permission! Make sure to ask a MAN first.\nMEN INSTRUCTIONS: confirm or deny ${woman_name}'s request.`)
+                .addFields({ name: `${woman_name} is trying to play the song: `, value: string })
+                .setFooter({ text: 'This feature was brought to you by Kipp and Trent! 𐐘⚔ඩ' })
+
+            const sentMessage = await message.channel.send({ embeds: [womanRebuke] }).catch(e => console.log(e))
+
+            // on the next message written in bot_commands:
+                // if the message is written by any role besides woman:
+                    // if the string starts with "deny":
+                        // print "permission denied. reason: {deny string [4:]}"
+                    // else:
+                        // print "permission granted."
+                // else:
+                    // print "you can't confirm yourself"
+
             
+
+            const womanFilter = (reply) => !reply.author.roles.cace.has('1051027080202166362')
+            const confirmationCollector = message.channel.createMessageCollector({ womanFilter, time: 10000 })
+            
+            confirmationCollector.on('collect', m => {
+                // Logic For Denying Or Confirming
+                if(m.lowercase.startsWith('deny')) {
+                    const str = message.content
+                    const index = str.indexOf(" "); // chop string in half at the first whitespace
+                    const firstHalf = str.slice(0, index);
+                    const secondHalf = str.slice(index + 1);
+                    console.log(`Permission Denied. Reason: ${secondhalf}`)
+                }
+                else {
+                    console.log('Permission Granted! Your song will now play.')  
+                }
+                
+                sentMessage.delete
+            })
         }
 
         if(string.slice(0, 4) === 'http'){
