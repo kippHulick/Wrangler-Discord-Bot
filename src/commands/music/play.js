@@ -17,11 +17,18 @@ module.exports = {
         const string = args.join(' ')
 
 
-        // Woman Permmisions Check \\
+        // Woman Permissions Check \\
 
-        if(message.member.roles.cache.has('1051027080202166362')) { // if woman:
+        // const womanRole = await message.client.guilds.roles//.fetch('1051027080202166362')
+        // console.log(womanRole)
+        
+        const woman_id = '1129157750279110817' // cool kid club woman: ('1051027080202166362')
+        
+        let woman_roles_maybe = message.member // yields output in guildroletest.json
+        console.log(woman_roles_maybe)
+
+        if(message.member.roles.cache.has('1129157750279110817')) {
             const woman_name = message.author.username
-            // message.channel.send('youre banning' + args[0]);
             const womanRebuke = new EmbedBuilder()
                 .setColor(message.client.colors.youtube)
                 .setTitle('🚨🚨🚨 Woman Permission Alert 🚨🚨🚨')
@@ -31,40 +38,64 @@ module.exports = {
                 .setFooter({ text: 'This feature was brought to you by Kipp and Trent! 𐐘⚔ඩ' })
 
             const sentMessage = await message.channel.send({ embeds: [womanRebuke] }).catch(e => console.log(e))
-
-            // on the next message written in bot_commands:
-                // if the message is written by any role besides woman:
-                    // if the string starts with "deny":
-                        // print "permission denied. reason: {deny string [4:]}"
-                    // else:
-                        // print "permission granted."
-                // else:
-                    // print "you can't confirm yourself"
-
+            
+            // debug - check 
+            console.log(!sentMessage.author.roles.cache.has('1129157750279110817'))
+            const womanFilter = (e) => {
+                console.log(!sentMessage.author.roles.cache.has('1129157750279110817'))
+                return !e.author.roles.cache.has('1129157750279110817') // cool kid club woman: ('1051027080202166362')
+            }
+            const confirmationCollector = message.channel.createMessageCollector({ womanFilter, time: 10000 })
             
 
-            const womanFilter = (reply) => !reply.author.roles.cace.has('1051027080202166362')
-            const confirmationCollector = message.channel.createMessageCollector({ womanFilter, time: 10000 })
-    
+            // wait until next message is posted in bot_commands \\
+            const collected = await message.channel.awaitMessages(womanFilter, {
+                max: 1,
+                time: 50000,
+            }).catch(() => {
+                message.author.send('Timeout');
+            });
 
             confirmationCollector.on('collect', m => {
                 // Logic For Denying Or Confirming
-                let confirm_deny = message.toLowerCase()
+                let confirm_deny = collected.content.toLowerCase()
                 if(confirm_deny.startsWith('deny')) {
-                    const str = message.content
+                    const str = collected.content
                     const index = str.indexOf(" "); // chop string in half at the first whitespace
                     const firstHalf = str.slice(0, index);
                     const secondHalf = str.slice(index + 1);
-                    message.channel.send(`Permission Denied. Reason: ${secondHalf}`)
+                    collected.channel.send(`Permission Denied. Reason: ${secondHalf}`)
                     exit() // break out of function if permission denied
                 }
                 else {
-                    message.channel.send('Permission Granted! Your song will now play.')
+                    collected.channel.send('Permission Granted! Your song will now play.')
                 }
                 
-                sentMessage.delete()
+                collected.delete()
             })
         }
+        //     const womanFilter = (reply) => !reply.author.roles.cace.has('1129157750279110817') // cool kid club woman: ('1051027080202166362')
+        //     const confirmationCollector = message.channel.createMessageCollector({ womanFilter, time: 10000 })
+    
+
+        //     confirmationCollector.on('collect', m => {
+        //         // Logic For Denying Or Confirming
+        //         let confirm_deny = message.content.toLowerCase()
+        //         if(confirm_deny.startsWith('deny')) {
+        //             const str = message.content
+        //             const index = str.indexOf(" "); // chop string in half at the first whitespace
+        //             const firstHalf = str.slice(0, index);
+        //             const secondHalf = str.slice(index + 1);
+        //             message.channel.send(`Permission Denied. Reason: ${secondHalf}`)
+        //             exit() // break out of function if permission denied
+        //         }
+        //         else {
+        //             message.channel.send('Permission Granted! Your song will now play.')
+        //         }
+                
+        //         sentMessage.delete()
+        //     })
+        // }
 
         if(string.slice(0, 4) === 'http') {
             client.distube.play(
