@@ -22,13 +22,16 @@ module.exports = {
         const womanCheck = async () => {
             let womanFinal = Boolean
 
-            const woman_id = '1129157750279110817' // cool kid club woman: ('1051027080202166362')
+            const woman_id = '992278660562296912' // cool kid club woman: ('1051027080202166362'), joe: '992278660562296912', devServerWoman: '1129157750279110817'
             
             // shit fuck role member debug THANK YOU DISCORD.JS
             // let woman_roles_maybe = message.member._roles // yields output in guildroletest.json
             // console.log(woman_roles_maybe)
 
-            if(!message.member._roles.includes("1129157750279110817")) { womanFinal = false }
+            if(!message.member._roles.includes(woman_id)) {
+                womanFinal = false
+                return
+            }
 
             const woman_name = message.author.username
             const womanRebuke = new EmbedBuilder()
@@ -73,6 +76,7 @@ module.exports = {
                 }
                 else {
                     confirmation.channel.send('Permission Granted! Your song will now play.')
+                    womanFinal = false
                 }
                 // TODO DELETE THE EMBED
                 // collected.delete()
