@@ -21,7 +21,6 @@ module.exports = {
 
         // Woman Check \\
         const womanDenied = await woman.check(message, string)
-        console.log({womanDenied})
         if (womanDenied == true) {
             console.log('woman has been denied')
             return
