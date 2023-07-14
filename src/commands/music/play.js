@@ -3,6 +3,8 @@ const {
 } = require("discord.js")
 const { SoundCloudPlugin } = require("@distube/soundcloud")
 
+const woman = require('../../utils/womanCheck')
+
 module.exports = {
     data: {
         "name": 'play',
@@ -15,76 +17,10 @@ module.exports = {
         const { client } = message
         console.log('Playing!')
         const string = args.join(' ')
+        time = message.client.searchTime
 
-
-        // Woman Permissions Check \\
-
-        const womanCheck = async () => {
-            let womanFinal = Boolean
-
-            const woman_id = '992278660562296912' // cool kid club woman: ('1051027080202166362'), joe: '992278660562296912', devServerWoman: '1129157750279110817'
-            
-            // shit fuck role member debug THANK YOU DISCORD.JS
-            // let woman_roles_maybe = message.member._roles // yields output in guildroletest.json
-            // console.log(woman_roles_maybe)
-
-            if(!message.member._roles.includes(woman_id)) {
-                womanFinal = false
-                return
-            }
-
-            const woman_name = message.author.username
-            const womanRebuke = new EmbedBuilder()
-                .setColor(message.client.colors.youtube)
-                .setTitle('🚨🚨🚨 Woman Permission Alert 🚨🚨🚨')
-                //.setAuthor({ name: bannedUser.username, iconURL: bannedUser.avatarURL() })
-                .setDescription(`${woman_name} (Woman) Is Trying To Play A Song Without A Man's Permission! Make sure to ask a MAN first.\nMEN INSTRUCTIONS: confirm or deny ${woman_name}'s request.`)
-                .addFields({ name: `${woman_name} is trying to play the song: `, value: string })
-                .setFooter({ text: 'This feature was brought to you by Kipp and Trent! 𐐘⚔ඩ' })
-
-            const sentMessage = await message.channel.send({ embeds: [womanRebuke] }).catch(e => console.log(e))
-            
-
-            // FOR THE MESSAGE FOLLOWING THE WOMAN'S SONG REQUEST:
-            // IF THE PERSON SENDING THIS MESSAGE HAS NO ROLES THAT ARE WOMAN_ROLE:
-            
-            // debug 
-            // console.log(!sentMessage.author.roles.cache.has('1129157750279110817'))
-            const womanFilter = m => true //!m.author._roles?.includes("1129157750279110817") || m.author._roles == undefined // cool kid club woman: ('1051027080202166362')            
-
-            // wait until next message is posted in bot_commands \\
-            const messageCollector = await message.channel.awaitMessages({
-                filter: womanFilter,
-                max: 1,
-                time: 50000,
-            }).catch(() => {
-                message.author.send('Timeout')
-            }).then(collected => {
-                //console.log(typeof m) // === object. THANK YOU! THANK YOU SO MUCH JAVASCRIPT
-                const confirmation = collected.first()
-                // Logic For Denying Or Confirming
-                let confirm_deny = confirmation.content.toLowerCase()
-                if(confirm_deny.startsWith('deny')) {
-                    console.log('Request Denied')
-                    const str = confirmation.content
-                    const index = str.indexOf(" "); // chop string in half at the first whitespace
-                    const firstHalf = str.slice(0, index);
-                    const secondHalf = str.slice(index + 1);
-                    confirmation.channel.send(`Permission Denied. Reason: ${secondHalf}`)
-                    womanFinal = true
-                    //exit() // break out of function if permission denied
-                }
-                else {
-                    confirmation.channel.send('Permission Granted! Your song will now play.')
-                    womanFinal = false
-                }
-                // TODO DELETE THE EMBED
-                // collected.delete()
-            })
-            return womanFinal
-        }
-
-        const womanDenied = await womanCheck()
+        // Woman Check \\
+        const womanDenied = await woman.check(message, string)
         console.log({womanDenied})
         if (womanDenied == true) {
             console.log('woman has been denied')
@@ -133,9 +69,9 @@ module.exports = {
 
             const messageFilter = (reply) => reply.author.id === message.member.id
 
-            const messageCollector = res.channel.createMessageCollector({ messageFilter, time: 10000 })
+            const messageCollector = res.channel.createMessageCollector({ messageFilter, time })
 
-            const reactionCollector = res.createReactionCollector({ filter, time: 10000 })
+            const reactionCollector = res.createReactionCollector({ filter, time })
             reactionCollector.on('collect', (reaction, user) => {
                 const emoji = reaction.emoji.name
                 const emojiKey = Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji)

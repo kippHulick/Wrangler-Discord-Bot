@@ -8,6 +8,8 @@ const {
   ComponentType
 } = require("discord.js")
 
+const woman = require('../../utils/womanCheck')
+
 module.exports = {
   data: {
     "name": 'playskip',
@@ -19,6 +21,15 @@ module.exports = {
     const { client } = message
     console.log('Playing!')
     const string = args.join(' ')
+    time = message.client.searchTime
+
+    // Woman Check \\
+    const womanDenied = await woman.check(message, string)
+    console.log({womanDenied})
+    if (womanDenied == true) {
+        console.log('woman has been denied')
+        return
+    }
 
     if(string.slice(0, 4) === 'http'){
       client.distube.play(
@@ -65,7 +76,7 @@ module.exports = {
       await res.edit({ embeds: [ await client.embeds.get('searchFinish').execute(added, client) ]})
     }
 
-    const collector = res.createReactionCollector({ filter, time: 10000 })
+    const collector = res.createReactionCollector({ filter, time })
     collector.on('collect', (reaction, user) => {
       const emoji = reaction.emoji.name
       helper(Object.keys(client.customEmojis).find(key => client.customEmojis[key] === emoji))

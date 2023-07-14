@@ -60,6 +60,8 @@ client.buttons = new Collection();
 client.selectMenus = new Collection();
 client.embeds = new Collection();
 
+client.searchTime = 20000 // 20 seconds in ms
+
 client.colors = {
 	primary: 0xF9a83a,
 	spotify: 0x1DB954,
