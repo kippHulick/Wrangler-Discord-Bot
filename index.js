@@ -34,8 +34,8 @@ const { SoundCloudPlugin } = require('@distube/soundcloud')
 client.distube = new DisTube(client, {
 	searchSongs: 5,
 	searchCooldown: 10,
-	leaveOnEmpty: false,
-	leaveOnStop: false,
+	leaveOnEmpty: true,
+	leaveOnStop: true,
 	plugins: [
 		new SpotifyPlugin({
 			emitEventsAfterFetching: true,

@@ -6,11 +6,10 @@ const woman = {
     async check (message, string) {
         let denyWoman = Boolean
 
-        const woman_id = '1051027080202166362' // cool kid club woman: ('1051027080202166362'), devServerWoman: '1129157750279110817'
+        const woman_id = '1129157750279110817' // cool kid club woman: ('1051027080202166362'), devServerWoman: '1129157750279110817'
         
 
         if(!message.member._roles.includes(woman_id)) { // statement is true if no woman role
-            console.log(!message.member._roles.includes(woman_id))
             denyWoman = false
             return
         }
@@ -38,7 +37,7 @@ const woman = {
             console.log(`${collected.size} messages collected`)
             if(collected.size === 0) {
                 denyWoman = true
-                sentMessage.delete()
+                sentMessage.delete().catch(e => console.log(e))
                 message.channel.send(`Sorry! The men must be doing some very important man things and can't be bothered right now. Try again later!`)
                 return
             }
@@ -58,7 +57,7 @@ const woman = {
                 confirmation.channel.send('Permission Granted! Your song will now play.')
                 denyWoman = false
             }
-            sentMessage.delete()
+            sentMessage.delete().catch(e => console.log(e))
         }).catch((e) => {console.log(e)})
         return denyWoman
     }
