@@ -159,7 +159,7 @@ module.exports = {
             //     .setThumbnail(`${song.thumbnail}`)
             // message.reactions.removeAll().catch(e => console.log(e))
             // message.edit({ embeds: [finalEmbed] })
-            message.delete()
+            message.delete().catch(e => {console.log(e)})
         })
 	},
 };
