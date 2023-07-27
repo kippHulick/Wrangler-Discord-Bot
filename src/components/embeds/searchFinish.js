@@ -25,7 +25,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(client.colors.primary)
-            .setTitle(`You added ${added.length} songs | ${total}`)
+            .setTitle(`You added ${added.length} song${added.length > 1 ? 's' : ''} | ${total}`)
             .setDescription(description())
 
         if(added[0].thumbnail) embed.setThumbnail(added[0].thumbnail)

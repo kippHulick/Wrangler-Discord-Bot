@@ -1,10 +1,3 @@
-const { 
-	EmbedBuilder,
-	ActionRowBuilder,
-	ButtonBuilder,
-	ButtonStyle
-} = require("discord.js")
-
 const db = require('../../utils/db')
 
 module.exports = {
@@ -31,7 +24,7 @@ module.exports = {
             console.log(error);
         }
 
-        const filter = (reaction, user) => !(user.id === '1023049554884575262')
+        const filter = (reaction, user) => !(user.id === '1023049554884575262' || '1103971669766320200') // Wrangler || Test Wrangler \\
 
         const collector = message.createReactionCollector({ filter, time: Number(song.duration) * 1000 })
 
