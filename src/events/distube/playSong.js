@@ -24,7 +24,7 @@ module.exports = {
             console.log(error);
         }
 
-        const filter = (reaction, user) => !(user.id === '1023049554884575262' || '1103971669766320200') // Wrangler || Test Wrangler \\
+        const filter = (reaction, user) => (!message.client.botId.includes(user.id))
 
         const collector = message.createReactionCollector({ filter, time: Number(song.duration) * 1000 })
 
@@ -51,15 +51,16 @@ module.exports = {
                     break
 
                 case pause:
-                    message.reactions.cache.get('⏸').remove().catch(e => console.log(e))
-                    message.react('▶️')
+                    console.log('pausing!')
+                    message.reactions.cache.get(pause).remove().catch(e => console.log(e))
+                    message.react(play)
                     client.commands.get('pause').execute(message)
                     message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     break
 
                 case play:
                     message.reactions.cache.get('▶️').remove().catch(e => console.log(e))
-                    message.react('⏸')
+                    message.react(pause)
                     client.commands.get('pause').execute(message)
                     message.edit({ embeds: [await client.embeds.get('song').execute(queue, song)] })
                     break

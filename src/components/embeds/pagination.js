@@ -53,7 +53,7 @@ module.exports = {
         const pages = {}
         pages[id] = pages[id] || 0
         const embed = embeds[pages[id]]
-        const filter = (i) => i.user.id === id || id === '1023049554884575262'
+        const filter = (i) => i.user.id === id //&& !(message.client.botId.includes(user.id))
         const time = 1000 * 60 * 2
 
         const getRow = (id) => {

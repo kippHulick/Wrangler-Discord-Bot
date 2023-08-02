@@ -68,6 +68,8 @@ client.colors = {
 	youtube: 0xFF0000,
 }
 
+client.botId = ['1023049554884575262', '1103971669766320200'] // Wrangler || Test Wrangler \\
+
 client.customEmojis = {
 	spotify: '<:spotify:1042861901849305138>',
 	soundcloud: '<:soundcloud:1043180252354072608>',
