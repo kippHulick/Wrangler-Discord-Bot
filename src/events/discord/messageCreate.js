@@ -1,10 +1,11 @@
 const { MembershipScreeningFieldType } = require("discord.js");
 const state =  require('../../utils/state')
+const prefixData = require('../../utils/state.json');
 
 module.exports = {
 	name: 'messageCreate',
 	async execute(message) {
-        const prefix = ';'
+        const prefix = prefixData[message.guildId] || ';'
 
         if(state.timeOut && message.author.id === `137219201852112897`) return await message.delete().catch(e => console.log(e))
 
