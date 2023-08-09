@@ -6,7 +6,7 @@ const woman = {
     async check (message, cmd, args) {
         let denyWoman = Boolean
 
-        const woman_id = '1129157750279110817' // cool kid club woman: ('1051027080202166362'), devServerWoman: '1129157750279110817'
+        const woman_id = '1051027080202166362' // cool kid club woman: ('1051027080202166362'), devServerWoman: '1129157750279110817'
         
 
         if(!message.member._roles.includes(woman_id)) { // statement is true if no woman role
