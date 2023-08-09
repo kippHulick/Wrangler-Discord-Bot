@@ -8,6 +8,7 @@ module.exports = {
   data: {
     "name": 'queue',
     "aliases": ['q'],
+    "command": "music",
   },
 
   execute: async (message, args) => {

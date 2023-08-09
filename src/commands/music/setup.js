@@ -1,6 +1,7 @@
 module.exports = {
     data: {
       "name": 'setup',
+      "command": "music",
     },
   
     execute: async (message, args) => {

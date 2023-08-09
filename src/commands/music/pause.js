@@ -3,6 +3,7 @@ module.exports = {
     "name": 'pause',
     "aliases": ['hold', 'resume'],
     "inVoiceChannel": true,
+    "command": "music",
   },
 
   execute: async (message, args) => {

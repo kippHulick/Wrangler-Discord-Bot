@@ -3,6 +3,7 @@ module.exports = {
     "name": 'nowplaying',
     "aliases": ['np'],
     "inVoiceChannel": true,
+    "command": "music",
   },
     
   execute: async (message, args) => {

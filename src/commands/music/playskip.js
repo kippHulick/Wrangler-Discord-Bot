@@ -5,6 +5,7 @@ module.exports = {
     "name": 'playskip',
     "aliases": ['ps'],
     "inVoiceChannel": true,
+    "command": "music",
   },
   
   execute: async (message, args) => {

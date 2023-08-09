@@ -1,6 +1,7 @@
 const { MembershipScreeningFieldType } = require("discord.js");
 const state =  require('../../utils/state')
 const prefixData = require('../../utils/state.json');
+const woman = require('../../utils/womanCheck')
 
 module.exports = {
 	name: 'messageCreate',
@@ -25,6 +26,15 @@ module.exports = {
         const cmd = message.client.commands.get(command) || message.client.commands.get(message.client.aliases.get(command))
 
         if(!cmd) return
+
+        // Woman Check \\
+        if(cmd.data.command == "music") {
+            const womanDenied = await woman.check(message, cmd, args)
+            if (womanDenied == true) {
+                console.log('woman has been denied')
+                return
+            }
+        }
 
         if(cmd.data.inVoiceChannel && !message.member.voice.channel){
             return message.channel.send(`You need to be in a voice channel big guy!`)

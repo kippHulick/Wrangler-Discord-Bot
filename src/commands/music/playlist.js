@@ -9,8 +9,8 @@ module.exports = {
     data: {
         "name": 'playlist',
         "aliases": ['pl'],
-        description: `Every user and server have a playlist by default, use \`;pl show me\` to see your songs and \`;pl show server\` to see the servers'.\nUsage: \`;pl show <user/server> <name>\`, \`;pl play <user/server> <name>\`, \`;pl create <user/server> <name>\`, \`;pl delete <user/server> <name>\``
-    },
+        description: `Every user and server have a playlist by default, use \`;pl show me\` to see your songs and \`;pl show server\` to see the servers'.\nUsage: \`;pl show <user/server> <name>\`, \`;pl play <user/server> <name>\`, \`;pl create <user/server> <name>\`, \`;pl delete <user/server> <name>\``},
+        "command": "music",
 
     async execute(message, args) {
         const { client, guild } = message

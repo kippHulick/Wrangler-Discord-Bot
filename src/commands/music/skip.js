@@ -3,6 +3,7 @@ module.exports = {
     "name": 'skip',
     "aliases": ['s'],
     "inVoiceChannel": true,
+    "command": "music",
   },
 
   execute: async (message, args) => {

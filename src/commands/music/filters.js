@@ -3,6 +3,7 @@ module.exports = {
         name: 'filter',
         aliases: ['filters', 'f'],
         inVoiceChannel: true,
+        "command": "music",
     },
 
     execute: async (message, args) => {

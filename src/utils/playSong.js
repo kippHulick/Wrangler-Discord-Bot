@@ -10,11 +10,11 @@ const playSong = {
         time = message.client.searchTime
 
         // Woman Check \\
-        const womanDenied = await woman.check(message, string)
-        if (womanDenied == true) {
-            console.log('woman has been denied')
-            return
-        }
+        // const womanDenied = await woman.check(message, string)
+        // if (womanDenied == true) {
+        //     console.log('woman has been denied')
+        //     return
+        // }
 
         if(string.slice(0, 4) === 'http') {
             let playObj = {

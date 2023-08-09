@@ -1,7 +1,8 @@
 module.exports = {
   data: {
     "name": 'leave',
-    "aliases": ['bye']
+    "aliases": ['bye'],
+    "command": "music",
   },
 
   execute: async (message, args) => {

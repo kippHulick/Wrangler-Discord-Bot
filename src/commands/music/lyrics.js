@@ -6,6 +6,7 @@ module.exports = {
     data: {
         "name": 'lyrics',
         "aliases": ['l'],
+        "command": "music",
     },
 
     execute: async (message, args) => {

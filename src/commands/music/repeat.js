@@ -3,6 +3,7 @@ module.exports = {
       "name": 'repeat',
       "aliases": ['loop', 'rp'],
       "inVoiceChannel": true,
+      "command": "music",
     },
 
   execute: async (message, args) => {

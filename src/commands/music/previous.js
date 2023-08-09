@@ -2,6 +2,7 @@ module.exports = {
     data: {
         "name": 'previous',
         "inVoiceChannel": true,
+        "command": "music",
     },
     
     execute: async (message) => {

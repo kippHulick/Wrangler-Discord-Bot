@@ -5,6 +5,7 @@ module.exports = {
     "name": 'playtop',
     "aliases": ['pt'],
     "inVoiceChannel": true,
+    "command": "music",
   },
     
   execute: async (message, args) => {

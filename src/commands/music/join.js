@@ -5,6 +5,7 @@ module.exports = {
     name: 'join',
     aliases: ['move'],
     inVoiceChannel: true,
+    "command": "music",
   },
 
   execute: async (message, args) => {
