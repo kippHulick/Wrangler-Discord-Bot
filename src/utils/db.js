@@ -6,6 +6,7 @@ const guildSchema = require('../schemas/guild')
 const playlistSchema = require('../schemas/playlist')
 const songSchema = require('../schemas/song')
 
+mongoose.set('strictQuery', false)
 
 const db = {
     async newDefaultPlaylist(author, authorName){
