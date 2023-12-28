@@ -34,7 +34,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: kipphulick/wrangler-image
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -44,5 +44,5 @@ jobs:
           push: true
           tags: kipphulick/wrangler-image:${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          repository: kipphulick/wrangler-image
+          
 
