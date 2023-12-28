@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/discord.js": "github:hydrabolt/discord.js",
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.16.0",
     "@distube/soundcloud": "^1.2.2",

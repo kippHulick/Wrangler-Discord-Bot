@@ -1,5 +1,9 @@
 FROM node:latest
 
+EXPOSE 443
+EXPOSE 80
+EXPOSE 50000-65535/udp
+
 RUN apt-get update ; apt-get install -y git build-essential gcc make yasm autoconf automake cmake libtool checkinstall libmp3lame-dev pkg-config libunwind-dev zlib1g-dev libssl-dev
 
 RUN mkdir -p /usr/src/bot
