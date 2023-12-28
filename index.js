@@ -36,6 +36,7 @@ client.distube = new DisTube(client, {
 	searchCooldown: 10,
 	leaveOnEmpty: true,
 	leaveOnStop: true,
+	nsfw: true,
 	plugins: [
 		new SpotifyPlugin({
 			emitEventsAfterFetching: true,

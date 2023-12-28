@@ -10,19 +10,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/discord.js": "github:hydrabolt/discord.js",
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.16.0",
     "@distube/soundcloud": "^1.2.2",
     "@distube/spotify": "^1.5.1",
     "@distube/yt-dlp": "^1.1.3",
     "@distube/ytdl-core": "^4.11.11",
-    "canvas": "^2.10.2",
+    "@distube/ytsr": "^2.0.0",
+    "canvas": "^2.11.2",
     "discord-together": "^1.3.31",
     "discord.js": "^14.10.2",
     "distube": "^4.0.4",
     "dotenv": "^16.0.2",
     "libsodium-wrappers": "^0.7.10",
     "mongoose": "^6.7.2",
+    "npm": "^10.2.5",
     "phin": "^3.6.1",
     "uuidv4": "^6.2.13"
   }
