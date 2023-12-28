@@ -1,0 +1,23 @@
+name: Automated Docker distribution
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build-deploy:
+    runs-on: ubuntu-latest
+    name: Build and deploy
+    steps:
+
+      - name: Checks out the repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t wrangler-bot-image .
+
+      - name: Create Docker container
+        run: docker create --name wrangler-bot wrangler-bot-image
