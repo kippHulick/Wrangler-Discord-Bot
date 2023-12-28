@@ -16,9 +16,9 @@ jobs:
       matrix:
         platform:
           - linux/amd64
-          - linux/arm/v6
-          - linux/arm/v7
-          - linux/arm64
+          - linux/arm/v6/node:lateset
+          - linux/arm/v7/node:lateset
+          - linux/arm64/node:lateset
     steps:
       - name: Checkout
         uses: actions/checkout@v4
