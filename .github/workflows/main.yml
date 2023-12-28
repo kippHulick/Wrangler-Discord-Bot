@@ -41,8 +41,7 @@ jobs:
         with:
           file: ./Dockerfile
           context: "{{defaultContext}}"
+          platforms: linus/amd64, linus/arm64
           push: true
           tags: kipphulick/wrangler-image:latest
           labels: ${{ steps.meta.outputs.labels }}
-          
-
