@@ -35,6 +35,7 @@ client.distube = new DisTube(client, {
 	searchSongs: 5,
 	searchCooldown: 10,
 	leaveOnEmpty: true,
+	emptyCooldown: 120,
 	leaveOnStop: true,
 	nsfw: true,
 	plugins: [
