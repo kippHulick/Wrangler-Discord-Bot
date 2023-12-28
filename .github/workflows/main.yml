@@ -42,7 +42,7 @@ jobs:
           file: ./Dockerfile
           context: "{{defaultContext}}"
           push: true
-          tags: kipphulick/wrangler-image:${{ steps.meta.outputs.tags }}
+          tags: kipphulick/wrangler-image:latest
           labels: ${{ steps.meta.outputs.labels }}
           
 
