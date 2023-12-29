@@ -30,4 +30,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: kipphulick/wrangler-image:latest
-          platforms: linux/arm64-linux/amd64
+          platforms: linux/arm64
