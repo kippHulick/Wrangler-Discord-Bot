@@ -27,9 +27,9 @@ jobs:
         run: |
           docker buildx create --name mybuilder
           docker buildx use mybuilder
-          docker buildx build --platform linux/amd64,linux/arm64 -t yourusername/yourimage:latest .
-          docker buildx imagetools create yourusername/yourimage:latest --tag yourusername/yourimage --target manifest
+          docker buildx build --platform linux/amd64,linux/arm64 -t kipphulick/wrangler-image:latest .
+          docker buildx imagetools create kipphulick/wrangler-image:latest --tag kipphulick/wrangler-image --target manifest
 
       - name: Push multi-arch Docker image
-        run: docker push yourusername/yourimage:latest
+        run: docker push kipphulick/wrangler-image:latest
           
