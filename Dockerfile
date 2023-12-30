@@ -14,8 +14,6 @@ ARG SERP_KEY
 COPY package*.json /
 COPY . .
 
-RUN cat cookies.json
-
 RUN apt-get update ; apt-get -y install \
   build-essential \
   libcairo2-dev \
