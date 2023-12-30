@@ -47,4 +47,6 @@ jobs:
           push: true
           tags: kipphulick/wrangler-image:latest
           platforms: linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         
