@@ -30,7 +30,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./
           file: ./Dockerfile
           push: true
           tags: kipphulick/wrangler-image:latest
