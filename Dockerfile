@@ -45,9 +45,9 @@ RUN apt-get update ; apt-get -y install \
   ffmpeg
 
 COPY package*.json /
-COPY cookies.json /
+COPY /*cookies.json /
 
-RUN cat cookies.json
+RUN cat /cookies.json
 
 COPY . .
 

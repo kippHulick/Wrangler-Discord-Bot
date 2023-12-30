@@ -35,8 +35,6 @@ jobs:
           push: true
           tags: kipphulick/wrangler-image:latest
           platforms: linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           build-args: |
             TOKEN=${{ secrets.DISCORD_TOKEN }}
             CLIENT_ID=${{ secrets.CLIENT_ID }}
