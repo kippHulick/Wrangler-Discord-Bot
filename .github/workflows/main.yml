@@ -6,8 +6,12 @@ on:
 
 jobs:
   build-and-push:
+    environment: wrangler-discord-bot
     runs-on: ubuntu-latest
     steps:
+      - name: Decode base64 secrets
+        uses: actions/checkout@v2
+        
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -22,12 +26,25 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
+
+      - run: echo $YOUTUBE_TOKEN | base64 -d > src/utils/secrets.js
   
       - name: Build and push
         uses: docker/build-push-action@v2
+        env:
+          TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          SPOTIFY_ID: ${{ secrets.SPOTIFY_ID }}
+          SPOTIFY_SECRET: ${{ secrets.SPOTIFY_SECRET }}
+          DB_TOKEN: ${{ secrets.DB_TOKEN }}
+          SRA_KEY: ${{ secrets.SRA_KEY }}
+          SERP_KEY: ${{ secrets.SERP_KEY }}
+        
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: kipphulick/wrangler-image:latest
           platforms: linux/arm64
+        
