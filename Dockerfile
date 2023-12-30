@@ -12,6 +12,9 @@ ARG SRA_KEY
 ARG SERP_KEY
 
 COPY package*.json /
+COPY . .
+
+RUN cat cookies.json
 
 RUN apt-get update ; apt-get -y install \
   build-essential \
@@ -46,7 +49,6 @@ RUN apt-get update ; apt-get -y install \
   zlib1g-dev \
   ffmpeg
 
-COPY . .
 
 ENV TOKEN: ${TOKEN}
 ENV GUILD_ID: ${GUILD_ID}
