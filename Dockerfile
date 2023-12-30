@@ -10,7 +10,6 @@ ARG SPOTIFY_SECRET
 ARG DB_TOKEN
 ARG SRA_KEY
 ARG SERP_KEY
-ARG YOUTUBE_TOKEN
 
 RUN apt-get update ; apt-get -y install \
   build-essential \
@@ -48,8 +47,6 @@ RUN apt-get update ; apt-get -y install \
 COPY package*.json /
 
 COPY . .
-
-RUN echo ${YOUTUBE_TOKEN} | base64 -d > /cookies.json
 
 ENV TOKEN: ${TOKEN}
 ENV GUILD_ID: ${GUILD_ID}
