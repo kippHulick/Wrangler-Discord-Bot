@@ -12,7 +12,7 @@ ARG SRA_KEY
 ARG SERP_KEY
 
 COPY package*.json /
-COPY /*cookies.json /
+COPY cookies.json /
 
 RUN cat /cookies.json
 
