@@ -15,14 +15,11 @@ jobs:
           COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
         run: ./decrypt.sh
 
-      - name: Test print Youtube Cookie
-        run: cat $HOME/cookies.json
-
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -31,7 +28,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
   
       - name: Build and push
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
