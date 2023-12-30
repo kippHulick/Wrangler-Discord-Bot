@@ -5,22 +5,18 @@ on:
       - main
 
 jobs:
-  checkout-and-decrypt:
-    name: Decrypt Youtube cookie
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Decrypt large secret
-        run: ./decrypt.sh
-        env:
-          COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
-
   build-and-push:
     environment: wrangler-discord-bot
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Decrypt large secret
+        env:
+          COOKIE_KEY: ${{ secrets.COOKIE_KEY }}
+        run: ./decrypt.sh
+
+      - name: Test print Youtube Cookie
+        run: cat $HOME/cookies.json
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
