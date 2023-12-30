@@ -49,16 +49,16 @@ COPY package*.json /usr/src/bot
 
 COPY . .
 
-RUN echo ${ YOUTUBE_TOKEN } | base64 -d > src/utils/secrets.js
+RUN echo ${YOUTUBE_TOKEN} | base64 -d > src/utils/secrets.js
 
-ENV TOKEN: '${ TOKEN }'
-ENV GUILD_ID: '${ secrets.GUILD_ID }'
-ENV CLIENT_ID: '${ secrets.CLIENT_ID }'
-ENV SPOTIFY_ID: '${ secrets.SPOTIFY_ID }'
-ENV SPOTIFY_SECRET: '${ secrets.SPOTIFY_SECRET }'
-ENV DB_TOKEN: '${ secrets.DB_TOKEN }'
-ENV SRA_KEY: '${ secrets.SRA_KEY }'
-ENV SERP_KEY: '${ secrets.SERP_KEY }'
+ENV TOKEN: ${TOKEN}
+ENV GUILD_ID: ${GUILD_ID}
+ENV CLIENT_ID: ${CLIENT_ID}
+ENV SPOTIFY_ID: ${SPOTIFY_ID}
+ENV SPOTIFY_SECRET: ${SPOTIFY_SECRET}
+ENV DB_TOKEN: ${DB_TOKEN}
+ENV SRA_KEY: ${SRA_KEY}
+ENV SERP_KEY: ${SERP_KEY}
 
 RUN npm install
 
