@@ -2,6 +2,15 @@ FROM node:latest
 
 EXPOSE 3000
 
+ARG TOKEN
+ARG GUILD_ID
+ARG CLIENT_ID
+ARG SPOTIFY_ID
+ARG SPOTIFY_SECRET
+ARG DB_TOKEN
+ARG SRA_KEY
+ARG SERP_KEY
+
 RUN apt-get update ; apt-get -y install \
   build-essential \
   libcairo2-dev \
@@ -38,6 +47,15 @@ RUN apt-get update ; apt-get -y install \
 COPY package*.json /usr/src/bot
 
 COPY . .
+
+ENV TOKEN: ${ TOKEN }
+ENV GUILD_ID: ${ secrets.GUILD_ID }
+ENV CLIENT_ID: ${ secrets.CLIENT_ID }
+ENV SPOTIFY_ID: ${ secrets.SPOTIFY_ID }
+ENV SPOTIFY_SECRET: ${ secrets.SPOTIFY_SECRET }
+ENV DB_TOKEN: ${ secrets.DB_TOKEN }
+ENV SRA_KEY: ${ secrets.SRA_KEY }
+ENV SERP_KEY: ${ secrets.SERP_KEY }
 
 RUN npm install
 
