@@ -3,7 +3,6 @@ const path = require('node:path')
 const { DisTube } = require('distube')
 const { DiscordTogether } = require('discord-together')
 require('dotenv').config()
-const secrets = require('./src/utils/secrets')
 const { connect } = require('mongoose')
 
 //* Discord Settings *\\
@@ -49,7 +48,7 @@ client.distube = new DisTube(client, {
 		new SoundCloudPlugin(),
 		new YtDlpPlugin({ update: true })
 	],
-	youtubeCookie: secrets.youTubeCookie
+	youtubeCookie: JSON.parse(fs.readFileSync("cookies.json")),
 })
 
 client.discordTogether = new DiscordTogether(client);

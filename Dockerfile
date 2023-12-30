@@ -45,11 +45,11 @@ RUN apt-get update ; apt-get -y install \
   zlib1g-dev \
   ffmpeg
 
-COPY package*.json /usr/src/bot
+COPY package*.json /
 
 COPY . .
 
-RUN echo ${YOUTUBE_TOKEN} | base64 -d > src/utils/secrets.js
+RUN echo ${YOUTUBE_TOKEN} | base64 -d > /cookies.json
 
 ENV TOKEN: ${TOKEN}
 ENV GUILD_ID: ${GUILD_ID}
