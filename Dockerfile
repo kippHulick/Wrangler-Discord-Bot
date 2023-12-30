@@ -12,9 +12,8 @@ ARG SRA_KEY
 ARG SERP_KEY
 
 COPY package*.json /
-COPY cookies.json /
 
-RUN cat /cookies.json
+RUN cat cookies.json
 
 RUN apt-get update ; apt-get -y install \
   build-essential \
