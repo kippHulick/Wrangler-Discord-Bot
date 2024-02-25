@@ -48,7 +48,7 @@ client.distube = new DisTube(client, {
 		new SoundCloudPlugin(),
 		new YtDlpPlugin({ update: true })
 	],
-	youtubeCookie: JSON.parse(fs.readFileSync("cookies.json")),
+	youtubeCookie: secrets.youTubeCookie
 })
 
 client.discordTogether = new DiscordTogether(client);
