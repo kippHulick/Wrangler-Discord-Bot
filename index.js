@@ -4,6 +4,7 @@ const { DisTube } = require('distube')
 const { DiscordTogether } = require('discord-together')
 require('dotenv').config()
 const { connect } = require('mongoose')
+const secrets = require('./src/utils/secrets')
 
 //* Discord Settings *\\
 
